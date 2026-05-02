@@ -10,12 +10,17 @@ const tintColorDark = '#fff';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    // text: '#11181C',
+    // background: '#fff',
+    // tint: tintColorLight,
+    // icon: '#687076',
+    // tabIconDefault: '#687076',
+    // tabIconSelected: tintColorLight,
+    primary: '#5ED5A8',
+    background: '#1B232A',
+    secondary: '#777777',
+    tertiary: '#252E35',
+    foreground: '#171D22',
   },
   dark: {
     text: '#ECEDEE',
@@ -47,7 +52,8 @@ export const Fonts = Platform.select({
   web: {
     sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
     serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
+    rounded:
+      "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
