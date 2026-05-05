@@ -27,8 +27,8 @@ export default function RootLayout() {
 
   return (
     <>
-      <StatusBar style="dark" />
-      <View className="bg-background flex-1">
+      <StatusBar style="light" />
+      <View className="flex-1 bg-background">
         <Stack
           screenOptions={{
             contentStyle: {
