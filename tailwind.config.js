@@ -12,9 +12,12 @@ module.exports = {
       colors: {
         primary: '#5ED5A8',
         background: '#1B232A',
+        'background-2': '#161C22',
         secondary: '#777777',
         tertiary: '#252E35',
         foreground: '#171D22',
+        'custom-text': '#C1C7CD',
+        'custom-text-2': '#A7AFB7',
       },
       fontFamily: {
         'nm-light': ['NeueMontreal-Light'],

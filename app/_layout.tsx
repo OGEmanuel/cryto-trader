@@ -5,6 +5,7 @@ import '@/global.css';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { View } from 'react-native';
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -26,14 +27,16 @@ export default function RootLayout() {
 
   return (
     <>
-      <StatusBar style="auto" />
-      <Stack
-        screenOptions={{
-          contentStyle: {
-            backgroundColor: Colors.light.background,
-          },
-        }}
-      />
+      <StatusBar style="dark" />
+      <View className="bg-background flex-1">
+        <Stack
+          screenOptions={{
+            contentStyle: {
+              backgroundColor: Colors.light.background,
+            },
+          }}
+        />
+      </View>
     </>
   );
 }

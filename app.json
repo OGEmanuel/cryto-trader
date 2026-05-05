@@ -8,6 +8,7 @@
     "scheme": "cryptotrader",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "backgroundColor": "#1B232A",
     "ios": {
       "supportsTablet": true
     },
