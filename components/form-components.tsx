@@ -4,6 +4,7 @@ import { Colors } from '@/constants/theme';
 import { useFieldContext, useFormContext } from '@/hooks/form-contexts';
 import { cn } from '@/lib/utils';
 import { useStore } from '@tanstack/react-form';
+import { useRef, useState } from 'react';
 import { Pressable, TextInput, TextInputProps, View } from 'react-native';
 import Button from './ui/button';
 import TextCustom from './ui/text';
@@ -35,15 +36,17 @@ export function SubscribeButton({
 
 const ErrorMessages = ({
   errors,
+  className,
 }: {
   errors: Array<string | { message: string }>;
+  className?: string;
 }) => {
   return (
     <>
       {errors.map(error => (
         <TextCustom
           key={typeof error === 'string' ? error : error.message}
-          className="text-sm text-red-500"
+          className={cn('text-sm text-red-500', className)}
         >
           {typeof error === 'string' ? error : error.message}
         </TextCustom>
@@ -108,6 +111,65 @@ export const TextField = (props: TextFieldProps) => {
         </View>
         {field.state.meta.isTouched && <ErrorMessages errors={errors} />}
       </View>
+    </View>
+  );
+};
+
+const OTP_LENGTH = 4;
+export const OTPField = () => {
+  const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef<TextInput>(null);
+  const field = useFieldContext<string>();
+  const errors = useStore(field.store, state => state.meta.errors);
+  const code = field.state.value;
+
+  const handleChange = (text: string) => {
+    const cleaned = text.replace(/[^0-9]/g, '');
+    if (cleaned.length <= OTP_LENGTH) {
+      field.handleChange(cleaned);
+    }
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    field.handleBlur();
+  };
+
+  return (
+    <View className="relative items-center gap-1">
+      <Pressable onPress={() => inputRef.current?.focus()}>
+        <TextInput
+          ref={inputRef}
+          value={field.state.value}
+          onChangeText={handleChange}
+          keyboardType="number-pad"
+          maxLength={OTP_LENGTH}
+          className="absolute opacity-0"
+          textContentType="oneTimeCode"
+          onFocus={() => setIsFocused(true)}
+          onBlur={handleBlur}
+        />
+        <View className="flex-row gap-8">
+          {Array.from({ length: OTP_LENGTH }).map((_, index) => {
+            const isActive = isFocused && index === code.length;
+
+            return (
+              <View
+                key={index}
+                className={cn(
+                  'h-[3.375rem] w-[3.75rem] items-center justify-center rounded-[12px] border bg-background-2',
+                  isActive ? 'border-secondary' : 'border-transparent',
+                )}
+              >
+                <TextCustom className="font-nm-bold text-[2rem]/[46px] text-white">
+                  {code[index] || ''}
+                </TextCustom>
+              </View>
+            );
+          })}
+        </View>
+      </Pressable>
+      {field.state.meta.isTouched && <ErrorMessages errors={errors} />}
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import AuthForm from './components/form';
-import PageWrapper from './components/page-wrapper';
+import PageWrapper from './components/tab-wrapper';
 
 const SignUp = () => {
   return (

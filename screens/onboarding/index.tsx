@@ -90,7 +90,7 @@ const OnboardingScreen = () => {
                   ' size-[0.765rem] rounded-full',
                   i === page ? 'bg-tertiary' : 'bg-secondary',
                 )}
-              ></View>
+              />
             ))}
           </View>
         </View>

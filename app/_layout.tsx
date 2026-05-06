@@ -34,6 +34,7 @@ export default function RootLayout() {
             contentStyle: {
               backgroundColor: Colors.light.background,
             },
+            headerShown: false,
           }}
         />
       </View>

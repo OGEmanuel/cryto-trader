@@ -1,17 +1,7 @@
 import AuthScreen from '@/screens/auth';
-import { Stack } from 'expo-router';
 
 const Auth = () => {
-  return (
-    <>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
-      <AuthScreen />
-    </>
-  );
+  return <AuthScreen />;
 };
 
 export default Auth;

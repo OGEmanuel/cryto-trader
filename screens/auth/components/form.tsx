@@ -1,6 +1,7 @@
 import TextCustom from '@/components/ui/text';
 import { useAppForm } from '@/hooks/form';
 import { revalidateLogic, useField } from '@tanstack/react-form';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import z from 'zod';
@@ -36,6 +37,7 @@ type formSchemaType = z.infer<typeof formSchema>;
 
 const AuthForm = (props: { page?: 'Sign up' }) => {
   const { page } = props;
+  const router = useRouter();
   const [securePassword, setSecurePassword] = useState(true);
 
   const form = useAppForm({
@@ -82,7 +84,9 @@ const AuthForm = (props: { page?: 'Sign up' }) => {
                 buttonLabel={
                   page ? 'Register with mobile' : 'Sign in with mobile'
                 }
-                onPress={() => switchMode('mobile')}
+                onPress={() =>
+                  page ? router.push('/auth/register') : switchMode('mobile')
+                }
               />
             )}
           </form.AppField>
