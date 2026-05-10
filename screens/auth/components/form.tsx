@@ -53,6 +53,7 @@ const AuthForm = (props: { page?: 'Sign up' }) => {
     },
     onSubmit: ({ value }) => {
       console.log(value);
+      router.replace('/home');
     },
   });
 

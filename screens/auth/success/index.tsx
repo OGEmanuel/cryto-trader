@@ -2,16 +2,22 @@ import Button from '@/components/ui/button';
 import TextCustom from '@/components/ui/text';
 import { Colors } from '@/constants/theme';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ImageBackground, StyleSheet, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Image, ImageBackground, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SuccessIcon from '../assets/icons/success-icon.svg';
 
 const SuccessScreen = () => {
+  const router = useRouter();
   return (
     <View className="relative flex-1">
       <ImageBackground
         source={require('../assets/img/Background.png')}
         className="absolute size-full"
+      />
+      <Image
+        source={require('../assets/img/glossy.png')}
+        className="absolute h-[189.99px] w-[206.51px]"
       />
       <SafeAreaView className="android:pt-[2.3125rem] flex-1">
         <View className="gap-1 pt-[6.5625rem]">
@@ -31,7 +37,7 @@ const SuccessScreen = () => {
             <TextCustom className="text-center font-nm-bold text-[2rem]/[2.875rem] text-white">
               Your account has been successfully created!
             </TextCustom>
-            <Button label="Get Started" />
+            <Button label="Get Started" onPress={() => router.push('/home')} />
           </View>
         </View>
       </SafeAreaView>
