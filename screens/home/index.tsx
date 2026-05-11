@@ -13,7 +13,7 @@ const HomeScreen = () => {
       <ScrollView>
         <View className="gap-7 bg-white">
           <QuickLinks />
-          <View className="gap-[1.875rem]">
+          <View className="gap-[1.875rem] pb-28">
             <RecentCoin />
             <TopCoins />
           </View>
