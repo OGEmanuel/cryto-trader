@@ -31,22 +31,20 @@ const TAB_PAGES = [
 
 const Layout = () => {
   return (
-    <>
-      <Tabs
-        screenOptions={{
-          headerShown: false,
-        }}
-        tabBar={props => <BottomTab {...props} />}
-      >
-        {TAB_PAGES.map(page => (
-          <Tabs.Screen
-            key={page.id}
-            name={page.name}
-            options={{ title: page.title }}
-          />
-        ))}
-      </Tabs>
-    </>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+      }}
+      tabBar={props => <BottomTab {...props} />}
+    >
+      {TAB_PAGES.map(page => (
+        <Tabs.Screen
+          key={page.id}
+          name={page.name}
+          options={{ title: page.title }}
+        />
+      ))}
+    </Tabs>
   );
 };
 

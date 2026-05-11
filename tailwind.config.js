@@ -18,6 +18,8 @@ module.exports = {
         foreground: '#171D22',
         'custom-text': '#C1C7CD',
         'custom-text-2': '#A7AFB7',
+        extra: '#E3E8ED',
+        destructive: '#DD4B4B'
       },
       fontFamily: {
         'nm-light': ['NeueMontreal-Light'],

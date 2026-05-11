@@ -1,12 +1,7 @@
-import TextCustom from '@/components/ui/text';
-import { View } from 'react-native';
+import HomeScreen from '@/screens/home';
 
 const Home = () => {
-  return (
-    <View className="flex-1 items-center justify-center">
-      <TextCustom>Hello</TextCustom>
-    </View>
-  );
+  return <HomeScreen />;
 };
 
 export default Home;

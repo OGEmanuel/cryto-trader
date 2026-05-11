@@ -1,7 +1,7 @@
 import TextCustom from '@/components/ui/text';
 import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
-import ArrowIcon from '../assets/icons/arrow-icon.svg';
+import ArrowIcon from '../../../assets/icons/arrow-icon.svg';
 import LayoutWrapper from './layout-wrapper';
 
 const RegistrationWrapper = (props: {
@@ -21,7 +21,7 @@ const RegistrationWrapper = (props: {
             <View className="size-11 items-center justify-center">
               <ArrowIcon />
             </View>
-            <TextCustom className="text-custom-text-2 font-nm-bold text-lg/[100%]">
+            <TextCustom className="font-nm-bold text-lg/[100%] text-custom-text-2">
               {title}
             </TextCustom>
           </Pressable>

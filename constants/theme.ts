@@ -24,6 +24,8 @@ export const Colors = {
     secondary: '#777777',
     tertiary: '#252E35',
     foreground: '#171D22',
+    extra: '#E3E8ED',
+    destructive: '#DD4B4B',
   },
   dark: {
     text: '#ECEDEE',

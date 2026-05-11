@@ -32,7 +32,7 @@ export default function BottomTab({
     <View
       className="absolute bottom-6 mx-6 flex-row items-center justify-between rounded-[20px] bg-background p-4"
       style={{
-        shadowColor: '#161C22',
+        shadowColor: Colors.light['background-2'],
         shadowOffset: {
           width: 0,
           height: 12,
@@ -86,7 +86,7 @@ export default function BottomTab({
             {icon[route.name as IconName]({
               fill: isFocused ? Colors.light.primary : Colors.light.secondary,
               style: {
-                shadowColor: isFocused ? '#5ED5A8' : undefined,
+                shadowColor: isFocused ? Colors.light.primary : undefined,
                 shadowOffset: isFocused
                   ? {
                       width: 0,
