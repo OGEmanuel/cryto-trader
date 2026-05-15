@@ -1,7 +1,7 @@
 import TextCustom from '@/components/ui/text';
 import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
-import ArrowIcon from '../../../assets/icons/arrow-icon.svg';
+import ArrowIcon from '@/assets/icons/arrow-icon.svg';
 import LayoutWrapper from './layout-wrapper';
 
 const RegistrationWrapper = (props: {

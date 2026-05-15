@@ -27,7 +27,7 @@ const TAB_PAGES = [
     name: 'wallets',
     title: 'Wallets',
   },
-];
+] as const;
 
 const Layout = () => {
   return (
@@ -37,11 +37,13 @@ const Layout = () => {
       }}
       tabBar={props => <BottomTab {...props} />}
     >
-      {TAB_PAGES.map(page => (
+      {TAB_PAGES.slice(0, 5).map(page => (
         <Tabs.Screen
           key={page.id}
           name={page.name}
-          options={{ title: page.title }}
+          options={{
+            title: page.title,
+          }}
         />
       ))}
     </Tabs>

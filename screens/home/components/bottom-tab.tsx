@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements';
 import { useLinkBuilder } from '@react-navigation/native';
+import { usePathname } from 'expo-router';
 import { View } from 'react-native';
 import ActivityIcon from '../assets/icons/activity';
 import HomeIcon from '../assets/icons/home';
@@ -42,8 +43,9 @@ export default function BottomTab({
         elevation: 12,
       }}
     >
-      {state.routes.map((route, index) => {
+      {state.routes.slice(0, 5).map((route, index) => {
         const { options } = descriptors[route.key];
+
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel

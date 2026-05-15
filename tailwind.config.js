@@ -19,7 +19,8 @@ module.exports = {
         'custom-text': '#C1C7CD',
         'custom-text-2': '#A7AFB7',
         extra: '#E3E8ED',
-        destructive: '#DD4B4B'
+        destructive: '#DD4B4B',
+        notify: '#4AA8FF'
       },
       fontFamily: {
         'nm-light': ['NeueMontreal-Light'],

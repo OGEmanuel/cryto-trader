@@ -1,7 +1,6 @@
-import TextCustom from '@/components/ui/text';
-import { Colors } from '@/constants/theme';
 import { cn } from '@/lib/utils';
-import { Pressable, StyleProp, View, ViewStyle } from 'react-native';
+import { useRouter } from 'expo-router';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import DepositIcon from './assets/icons/deposit';
 import GridTradingIcon from './assets/icons/grid-trading';
 import LaunchPadIcon from './assets/icons/launch-pad';
@@ -10,6 +9,7 @@ import MarginIcon from './assets/icons/margin';
 import MoreIcon from './assets/icons/more';
 import ReferralIcon from './assets/icons/referral';
 import SavingsIcon from './assets/icons/savings';
+import PressableIconLabel from './components/pressable-icon-label';
 
 const ACTIONS = [
   {
@@ -69,60 +69,37 @@ const ACTIONS = [
 ];
 
 const QuickActions = () => {
+  const router = useRouter();
+
   return (
     <View className="bg-background-2">
       <View className="flex-row border-b-[0.5px] border-tertiary">
         {ACTIONS.slice(0, 4).map(action => (
-          <Pressable
+          <PressableIconLabel
             key={action.id}
+            action={action}
             className={cn(
-              'flex-1 items-center gap-[10px] border-r border-tertiary pb-4 pt-5 active:opacity-75',
+              'border-r border-tertiary pb-4',
               action.id === 4 && 'border-0',
             )}
-          >
-            {action.icon({
-              style: {
-                shadowColor: Colors.light.primary,
-                shadowOffset: {
-                  width: 0,
-                  height: 5,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 8,
-                elevation: 5,
-              },
-            })}
-            <TextCustom className="text-xs/[100%] text-custom-text">
-              {action.name}
-            </TextCustom>
-          </Pressable>
+          />
         ))}
       </View>
       <View className="flex-row border-t-[0.5px] border-tertiary">
         {ACTIONS.slice(4, 8).map(action => (
-          <Pressable
+          <PressableIconLabel
             key={action.id}
+            action={action}
+            onPress={() => {
+              if (action.name.toLowerCase() === 'more') {
+                router.push('/home/more');
+              }
+            }}
             className={cn(
-              'flex-1 items-center gap-[10px] border-r border-tertiary pb-5 pt-5 active:opacity-75',
-              action.id === 8 && 'border-0',
+              'border-r border-tertiary pb-4',
+              action.id === 4 && 'border-0',
             )}
-          >
-            {action.icon({
-              style: {
-                shadowColor: Colors.light.primary,
-                shadowOffset: {
-                  width: 0,
-                  height: 5,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 8,
-                elevation: 5,
-              },
-            })}
-            <TextCustom className="text-xs/[100%] text-custom-text">
-              {action.name}
-            </TextCustom>
-          </Pressable>
+          />
         ))}
       </View>
     </View>
