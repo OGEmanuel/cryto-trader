@@ -34,14 +34,14 @@ const List = () => {
   };
 
   return (
-    <View className="relative flex-1 py-3">
+    <View className="relative py-3">
       <FlatList
         showsVerticalScrollIndicator={false}
         data={NOTIFICATION_DATA}
         ListEmptyComponent={<EmptySection />}
         renderItem={item => <RenderNotificationsList data={item.item} />}
         contentContainerClassName={cn(
-          'gap-4 flex-1',
+          'gap-4',
           NOTIFICATION_DATA.length < 1 && 'justify-center',
         )}
         contentContainerStyle={{
