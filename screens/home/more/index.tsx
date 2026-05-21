@@ -1,5 +1,6 @@
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import PageWrapper from '../components/page-wrapper';
 import Common from './common';
 import Finance from './finance';
 import Header from './header';
@@ -7,7 +8,7 @@ import Trade from './trade';
 
 const MoreScreen = () => {
   return (
-    <View className="flex-1 bg-background">
+    <PageWrapper>
       <SafeAreaView className="android:pt-[2.3125rem] flex-1">
         <Header />
         <ScrollView className="pt-[3.75rem]">
@@ -18,7 +19,7 @@ const MoreScreen = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-    </View>
+    </PageWrapper>
   );
 };
 

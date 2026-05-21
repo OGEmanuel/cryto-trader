@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/theme';
 import { cn } from '@/lib/utils';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import CryptoLoansIcon from '../assets/icons/crypto-loans';
@@ -68,7 +69,7 @@ const Finance = () => {
   return (
     <Section title="Finance">
       <View className="gap-[3.375rem]">
-        <View className="flex-row items-center justify-between">
+        <View className="flex-row items-start justify-between">
           {ACTIONS.slice(0, 4).map(action => (
             <PressableIconLabel
               key={action.id}
@@ -78,7 +79,7 @@ const Finance = () => {
             >
               {action.icon({
                 style: {
-                  shadowColor: '#5ED5A8',
+                  shadowColor: Colors.light.primary,
                   shadowOffset: {
                     width: 0,
                     height: 5,
@@ -100,7 +101,7 @@ const Finance = () => {
             >
               {action.icon({
                 style: {
-                  shadowColor: '#5ED5A8',
+                  shadowColor: Colors.light.primary,
                   shadowOffset: {
                     width: 0,
                     height: 5,

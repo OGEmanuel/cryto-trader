@@ -1,10 +1,18 @@
 import { Colors } from '@/constants/theme';
-import { Image, View } from 'react-native';
+import { useCameraPermissions } from 'expo-camera';
+import { useRouter } from 'expo-router';
+import { Image, Platform, Pressable, View } from 'react-native';
 import NotificationIcon from '../assets/icons/notification.svg';
 import ScannerIcon from '../assets/icons/scanner.svg';
 import SearchIcon from '../assets/icons/search.svg';
 
 const Header = () => {
+  const router = useRouter();
+
+  const [permission, requestPermission] = useCameraPermissions();
+
+  const isPermissionGranted = Boolean(permission?.granted);
+
   return (
     <View
       style={{
@@ -29,9 +37,13 @@ const Header = () => {
         <View className="size-11 items-center justify-center">
           <SearchIcon />
         </View>
-        <View className="size-11 items-center justify-center">
+        <Pressable
+          onPress={() => router.push('/home/scan')}
+          disabled={Platform.OS === 'android' ? !isPermissionGranted : false}
+          className="size-11 items-center justify-center active:opacity-75"
+        >
           <ScannerIcon />
-        </View>
+        </Pressable>
         <View className="size-11 items-center justify-center">
           <NotificationIcon />
         </View>
