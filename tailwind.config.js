@@ -20,7 +20,8 @@ module.exports = {
         'custom-text-2': '#A7AFB7',
         extra: '#E3E8ED',
         destructive: '#DD4B4B',
-        notify: '#4AA8FF'
+        notify: '#4AA8FF',
+        warning: '#D5BB5E',
       },
       fontFamily: {
         'nm-light': ['NeueMontreal-Light'],

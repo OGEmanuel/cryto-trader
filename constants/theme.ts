@@ -27,6 +27,7 @@ export const Colors = {
     extra: '#E3E8ED',
     destructive: '#DD4B4B',
     notify: '#4AA8FF',
+    warning: '#D5BB5E',
   },
   dark: {
     text: '#ECEDEE',

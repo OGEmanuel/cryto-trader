@@ -5,16 +5,9 @@ import QRCode from 'react-native-qrcode-svg';
 import CopyIcon from './assets/icons/copy-icon.svg';
 
 const QrSection = () => {
-  //   const [copiedText, setCopiedText] = useState('');
-
   const copyToClipboard = async (text: string) => {
     await Clipboard.setStringAsync(text);
   };
-
-  // const fetchCopiedText = async () => {
-  //   const text = await Clipboard.getStringAsync();
-  //   setCopiedText(text);
-  // };
 
   return (
     <View className="items-center gap-5 py-5">

@@ -1,15 +1,13 @@
 import { Colors } from '@/constants/theme';
 import { useCameraPermissions } from 'expo-camera';
-import { useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { Image, Platform, Pressable, View } from 'react-native';
 import NotificationIcon from '../assets/icons/notification.svg';
 import ScannerIcon from '../assets/icons/scanner.svg';
 import SearchIcon from '../assets/icons/search.svg';
 
 const Header = () => {
-  const router = useRouter();
-
-  const [permission, requestPermission] = useCameraPermissions();
+  const [permission] = useCameraPermissions();
 
   const isPermissionGranted = Boolean(permission?.granted);
 
@@ -37,16 +35,19 @@ const Header = () => {
         <View className="size-11 items-center justify-center">
           <SearchIcon />
         </View>
-        <Pressable
-          onPress={() => router.push('/home/scan')}
-          disabled={Platform.OS === 'android' ? !isPermissionGranted : false}
-          className="size-11 items-center justify-center active:opacity-75"
-        >
-          <ScannerIcon />
-        </Pressable>
-        <View className="size-11 items-center justify-center">
-          <NotificationIcon />
-        </View>
+        <Link href={'/home/scan'} asChild>
+          <Pressable
+            disabled={Platform.OS === 'android' ? !isPermissionGranted : false}
+            className="size-11 items-center justify-center active:opacity-75"
+          >
+            <ScannerIcon />
+          </Pressable>
+        </Link>
+        <Link href={'/home/notifications'} asChild>
+          <Pressable className="size-11 items-center justify-center active:opacity-75">
+            <NotificationIcon />
+          </Pressable>
+        </Link>
       </View>
     </View>
   );

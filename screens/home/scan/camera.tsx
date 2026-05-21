@@ -1,5 +1,3 @@
-import { launchCameraAsync } from 'expo-image-picker';
-// import { CameraView, useCameraPermissions } from 'expo-camera';
 import { CameraView } from 'expo-camera';
 import { useEffect, useRef } from 'react';
 import { AppState, Linking, StyleSheet, View } from 'react-native';
@@ -9,11 +7,6 @@ import TopLeftIcon from './assets/icons/top-left';
 import TopRightIcon from './assets/icons/top-right';
 
 const Camera = () => {
-  const takeImageHandler = async () => {
-    const image = await launchCameraAsync();
-    console.log(image);
-  };
-
   const qrLock = useRef(false);
   const appState = useRef(AppState.currentState);
 
