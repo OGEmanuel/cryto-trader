@@ -1,6 +1,7 @@
 import Button from '@/components/ui/button';
 import { Colors } from '@/constants/theme';
 import { cn, getFullWidth } from '@/lib/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import {
@@ -54,6 +55,7 @@ const OnboardingScreen = () => {
 
   const goToNextPage = (): void => {
     if (page === INFO.length - 1) {
+      AsyncStorage.setItem('isOnboarded', 'true');
       router.push('/auth');
       return;
     }

@@ -1,8 +1,11 @@
+import { useGetTrendingQuery } from '@/services/markets';
 import BitcoinLogoIcon from './assets/icons/bitcoin-logo.svg';
 import MftLogoIcon from './assets/icons/mft-logo.svg';
 import RenLogoIcon from './assets/icons/ren-logo.svg';
 
 import CoinList from './components/coin-list';
+import ErrorState from './components/error';
+import HomeCoinSkeleton from './components/skeletons/home-coin';
 
 const COINS = [
   {
@@ -29,7 +32,16 @@ const COINS = [
 ];
 
 const TopCoins = () => {
-  return <CoinList header="Top Coins" COINS={COINS} />;
+  const { data, error, isLoading, refetch } = useGetTrendingQuery({});
+
+  if (isLoading) return <HomeCoinSkeleton header="Top Coins" />;
+
+  if (error)
+    return (
+      <ErrorState message="Error fetching Top coins" refetch={refetch} />
+    );
+
+  return <CoinList header="Top Coins" COINS={data?.data!!} />;
 };
 
 export default TopCoins;

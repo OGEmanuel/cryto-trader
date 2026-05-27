@@ -1,9 +1,9 @@
 import TextCustom from '@/components/ui/text';
 import { FlatList, View } from 'react-native';
-import { CoinListType } from '../constants/types';
+import { Asset, CoinListType } from '../constants/types';
 import RenderCoin from './render-coin';
 
-const CoinList = (props: { header: string; COINS: Array<CoinListType> }) => {
+const CoinList = (props: { header: string; COINS: Array<Asset> }) => {
   const { header, COINS } = props;
 
   return (

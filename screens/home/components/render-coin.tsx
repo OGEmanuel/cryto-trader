@@ -2,13 +2,15 @@ import TextCustom from '@/components/ui/text';
 import { Colors } from '@/constants/theme';
 import { cn } from '@/lib/utils';
 import { View } from 'react-native';
+import { SvgUri } from 'react-native-svg';
 import NegativeGraphIcon from '../assets/icons/graph-negative.svg';
 import PositiveGraphIcon from '../assets/icons/graph-positive.svg';
-import { CoinListType } from '../constants/types';
+import { Asset } from '../constants/types';
 
-const RenderCoin = (props: { coinList: CoinListType }) => {
+const RenderCoin = (props: { coinList: Asset }) => {
   const { coinList } = props;
-  const isPositive = coinList.percentage.startsWith('+');
+  const isPositive = !coinList.change24h?.toString().startsWith('-');
+  const svgUri = `${process.env.EXPO_PUBLIC_API_URL}${coinList.iconUrl.slice(1)}`;
 
   return (
     <View
@@ -32,13 +34,13 @@ const RenderCoin = (props: { coinList: CoinListType }) => {
               isPositive ? 'text-primary' : 'text-destructive',
             )}
           >
-            {coinList.price}
+            {coinList.priceUsd}
           </TextCustom>
-          {coinList.coin}
+          <SvgUri width={24} height={24} uri={svgUri} />
         </View>
         <View className="flex-row items-center gap-1">
           <TextCustom className="text-sm/[100%] text-background">
-            {coinList.pair}
+            {coinList.symbol}/BUSD
           </TextCustom>
           <TextCustom
             className={cn(
@@ -46,7 +48,8 @@ const RenderCoin = (props: { coinList: CoinListType }) => {
               isPositive ? 'text-primary' : 'text-destructive',
             )}
           >
-            {coinList.percentage}
+            {isPositive ? '+' : null}
+            {coinList.change24h}
           </TextCustom>
         </View>
       </View>

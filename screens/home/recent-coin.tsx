@@ -1,33 +1,19 @@
-import BitcoinLogoIcon from './assets/icons/bitcoin-logo.svg';
-import ChainlinkLogoIcon from './assets/icons/chainlink-logo.svg';
+import { useGetAssetsQuery } from '@/services/markets';
 import CoinList from './components/coin-list';
-
-const COINS = [
-  {
-    id: 1,
-    price: '40,059.83',
-    coin: <BitcoinLogoIcon />,
-    pair: 'BTC/BUSD',
-    percentage: '+0.81%',
-  },
-  {
-    id: 2,
-    price: '2,059.83',
-    coin: <ChainlinkLogoIcon />,
-    pair: 'SOL/BUSD',
-    percentage: '-0.81%',
-  },
-  {
-    id: 3,
-    price: '40,059.83',
-    coin: <BitcoinLogoIcon />,
-    pair: 'BTC/BUSD',
-    percentage: '+0.81%',
-  },
-];
+import ErrorState from './components/error';
+import HomeCoinSkeleton from './components/skeletons/home-coin';
 
 const RecentCoin = () => {
-  return <CoinList header="Recent Coin" COINS={COINS} />;
+  const { data, error, isLoading, refetch } = useGetAssetsQuery({});
+
+  if (isLoading) return <HomeCoinSkeleton header="Recent Coin" />;
+
+  if (error)
+    return (
+      <ErrorState message="Error fetching Recent coins" refetch={refetch} />
+    );
+
+  return <CoinList header="Recent Coin" COINS={data?.data!!} />;
 };
 
 export default RecentCoin;
