@@ -26,7 +26,9 @@ export function SubscribeButton({
       {isSubmitting => (
         <Button
           onPress={onPress}
-          label={isPending || isSubmitting ? 'Submitting...' : label}
+          isPending={isPending || isSubmitting}
+          disabled={isPending || isSubmitting}
+          label={label}
           className={cn('w-full', className)}
         />
       )}
@@ -74,7 +76,7 @@ export const TextField = (props: TextFieldProps) => {
       {(inputLabel || (onPress && buttonLabel)) && (
         <View className="flex-row items-center justify-between">
           {inputLabel && (
-            <TextCustom className="text-custom-text-2 text-sm/[100%]">
+            <TextCustom className="text-sm/[100%] text-custom-text-2">
               {inputLabel}
             </TextCustom>
           )}
@@ -115,7 +117,7 @@ export const TextField = (props: TextFieldProps) => {
   );
 };
 
-const OTP_LENGTH = 4;
+const OTP_LENGTH = 6;
 export const OTPField = () => {
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<TextInput>(null);
@@ -149,7 +151,7 @@ export const OTPField = () => {
           onFocus={() => setIsFocused(true)}
           onBlur={handleBlur}
         />
-        <View className="flex-row gap-8">
+        <View className="flex-row gap-2">
           {Array.from({ length: OTP_LENGTH }).map((_, index) => {
             const isActive = isFocused && index === code.length;
 

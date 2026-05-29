@@ -13,11 +13,9 @@ type GetAssetsParams = {
 export const markets = createApi({
   reducerPath: 'markets',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.EXPO_PUBLIC_API_URL,
+    baseUrl: `${process.env.EXPO_PUBLIC_API_URL}market/`,
   }),
   endpoints: builder => ({
-    // getCrypto: builder.query({ query: id => `posts/${id}` }),
-    // getSymbol: builder.query({ query: symbol => `market/assets/${symbol}` }),
     getAssets: builder.query<AssetsResponse, GetAssetsParams>({
       query: ({ q, search, page = 1, limit = 10, sort, order }) => {
         const params = new URLSearchParams();
@@ -29,21 +27,14 @@ export const markets = createApi({
         if (sort) params.append('sort', sort);
         if (order) params.append('order', order);
 
-        return `market/assets?${params.toString()}`;
+        return `assets?${params.toString()}`;
       },
     }),
     getAssetsSymbol: builder.query({
-      query: symbol => `market/assets/${symbol}`,
+      query: symbol => `assets/${symbol}`,
     }),
-    getTrending: builder.query({ query: () => 'market/trending' }),
-    getPrices: builder.query({ query: () => 'market/prices' }),
-    // createPost: builder.mutation({
-    //   query: newPost => ({
-    //     url: 'posts',
-    //     methods: 'POST',
-    //     body: newPost,
-    //   }),
-    // }),
+    getTrending: builder.query({ query: () => 'trending' }),
+    getPrices: builder.query({ query: () => 'prices' }),
   }),
 });
 

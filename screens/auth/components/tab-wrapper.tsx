@@ -11,7 +11,7 @@ const PageWrapper = (props: { title: string; children: React.ReactNode }) => {
       style={{
         width: getFullWidth(),
       }}
-      className="gap-11 px-6"
+      className="flex-1 gap-11 px-6"
     >
       <TextCustom className="font-nm-bold text-[2rem]/[2.875rem] text-white">
         {title}

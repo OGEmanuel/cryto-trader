@@ -2,13 +2,12 @@ import { getFullWidth } from '@/lib/utils';
 import { useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import {
+  KeyboardAvoidingView,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  Pressable,
   ScrollView,
   View,
 } from 'react-native';
-import CloseIcon from './assets/icons/close-icon.svg';
 import LayoutWrapper from './components/layout-wrapper';
 import SignIn from './sign-in';
 import SignUp from './sign-up';
@@ -51,29 +50,27 @@ const AuthScreen = () => {
 
   return (
     <LayoutWrapper>
-      <View className="gap-10">
-        <View className="gap-[2.125rem] px-6">
-          <Pressable
-            onPress={() => router.back()}
-            className="active:opacity-75"
+      <KeyboardAvoidingView
+        behavior={'padding'}
+        keyboardVerticalOffset={20}
+        className="flex-1 pb-6"
+      >
+        <View className="flex-1 gap-10">
+          <View className="px-6 pt-[3rem]">
+            <Tabs page={page} authPages={AUTH_PAGES} onGoToPage={goToPage} />
+          </View>
+          <ScrollView
+            ref={scrollRef}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={handleScrollEnd}
           >
-            <View className="size-11 items-center justify-center">
-              <CloseIcon />
-            </View>
-          </Pressable>
-          <Tabs page={page} authPages={AUTH_PAGES} onGoToPage={goToPage} />
+            <SignIn />
+            <SignUp />
+          </ScrollView>
         </View>
-        <ScrollView
-          ref={scrollRef}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={handleScrollEnd}
-        >
-          <SignIn />
-          <SignUp />
-        </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     </LayoutWrapper>
   );
 };

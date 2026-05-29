@@ -8,25 +8,8 @@ import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { Provider } from 'react-redux';
-
-// const STACK_PAGES = [
-//   {
-//     id: 1,
-//     name: 'index',
-//     title: 'Onboarding',
-//   },
-//   {
-//     id: 2,
-//     name: 'auth',
-//     title: 'Auth',
-//   },
-//   {
-//     id: 3,
-//     name: 'home',
-//     title: 'Home',
-//   },
-// ] as const;
 
 export default function RootLayout() {
   const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
@@ -88,6 +71,7 @@ export default function RootLayout() {
             }}
           />
         </Stack>
+        <Toast />
       </View>
     </Provider>
   );
