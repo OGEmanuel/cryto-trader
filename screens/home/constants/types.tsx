@@ -13,7 +13,6 @@ export type IconActionType = {
   name: string;
   icon: (props: { style?: StyleProp<ViewStyle> }) => React.JSX.Element;
 };
-
 export interface Asset {
   change24h: number;
   iconUrl: string;
@@ -52,4 +51,42 @@ export interface AssetsMeta {
 export interface AssetsResponse {
   data: Asset[];
   meta: AssetsMeta;
+}
+
+export interface SparklinePoint {
+  time: string;
+  priceUsd: number;
+}
+
+export interface TrendingAsset extends Asset {
+  sparkline: SparklinePoint[];
+}
+
+export interface FeaturedAsset {
+  type: string;
+  symbol: string;
+  name: string;
+  priceUsd: number;
+  change24h: number;
+  reason: string;
+}
+
+export interface TrendingAssetsMeta {
+  count: number;
+  include: string[];
+  featured: FeaturedAsset;
+}
+
+export interface TrendingAssetsResponse {
+  data: TrendingAsset[];
+  meta: TrendingAssetsMeta;
+}
+
+export interface WatchlistMeta {
+  count: number;
+}
+
+export interface WatchlistResponse {
+  data: Asset[];
+  meta: WatchlistMeta;
 }

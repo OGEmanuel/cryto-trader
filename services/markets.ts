@@ -1,4 +1,7 @@
-import { AssetsResponse } from '@/screens/home/constants/types';
+import {
+  AssetsResponse,
+  TrendingAssetsResponse,
+} from '@/screens/home/constants/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 type GetAssetsParams = {
@@ -33,7 +36,9 @@ export const markets = createApi({
     getAssetsSymbol: builder.query({
       query: symbol => `assets/${symbol}`,
     }),
-    getTrending: builder.query({ query: () => 'trending' }),
+    getTrending: builder.query<TrendingAssetsResponse, any>({
+      query: () => 'trending',
+    }),
     getPrices: builder.query({ query: () => 'prices' }),
   }),
 });

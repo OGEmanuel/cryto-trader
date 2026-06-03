@@ -1,12 +1,7 @@
-import TextCustom from '@/components/ui/text';
-import { View } from 'react-native';
+import MarketsScreen from '@/screens/home/markets';
 
 const Markets = () => {
-  return (
-    <View className="flex-1 items-center justify-center">
-      <TextCustom>Markets</TextCustom>
-    </View>
-  );
+  return <MarketsScreen />;
 };
 
 export default Markets;

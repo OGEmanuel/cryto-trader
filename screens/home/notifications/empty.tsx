@@ -4,7 +4,7 @@ import EmptyIcon from './assets/icons/empty-illustration.svg';
 
 const EmptySection = () => {
   return (
-    <View className="items-center gap-3 self-center">
+    <View className="items-center gap-3 self-center ">
       <EmptyIcon />
       <View>
         <TextCustom className="font-nm-bold text-sm/6 text-white">
