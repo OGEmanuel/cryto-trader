@@ -90,3 +90,49 @@ export interface WatchlistResponse {
   data: Asset[];
   meta: WatchlistMeta;
 }
+
+export interface VerificationLimits {
+  depositPerTransactionUsd: number;
+  tradePerTransactionUsd: number;
+  withdrawalPerTransactionUsd: number;
+  dailyWithdrawalUsd: number;
+}
+
+export interface Verification {
+  status: 'approved' | 'pending' | 'rejected';
+  tier: string;
+  level: number;
+  label: string;
+  limits: VerificationLimits;
+  canTrade: boolean;
+  canWithdraw: boolean;
+  canUseSandboxDeposits: boolean;
+}
+
+export interface UserSettings {
+  language: string;
+  fiatCurrency: string;
+  theme: 'light' | 'dark' | 'system';
+  pushNotifications: boolean;
+  biometricEnabled: boolean;
+}
+
+export interface UserProfile {
+  id: string;
+  role: 'customer' | 'admin';
+  fullName: string;
+  email: string;
+  emailVerified: boolean;
+  phone: string;
+  twoFactorEnabled: boolean;
+  kycStatus: 'approved' | 'pending' | 'rejected';
+  verification: Verification;
+  avatarUrl: string | null;
+  watchlist: string[];
+  settings: UserSettings;
+  createdAt: string;
+}
+
+export interface UserProfileResponse {
+  data: UserProfile;
+}

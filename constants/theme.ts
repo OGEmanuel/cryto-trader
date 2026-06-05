@@ -26,11 +26,11 @@ export const Colors = {
     'custom-text': '#C1C7CD',
     'custom-text-2': '#A7AFB7',
     'custom-text-tertiary': '#8594A6',
-
     secondary: '#777777',
     tertiary: '#252E35',
     foreground: '#171D22',
     extra: '#E3E8ED',
+    'custom-extra': '#F1F6F8',
     destructive: '#DD4B4B',
     notify: '#4AA8FF',
     warning: '#D5BB5E',

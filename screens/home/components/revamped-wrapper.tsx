@@ -7,27 +7,29 @@ import TopRightShape from '../assets/icons/tr-shape.svg';
 const RevampedWrapper = (props: {
   children: React.ReactNode;
   header: string;
-  description: string;
+  description?: string;
 }) => {
   const { children, header, description } = props;
 
   return (
-    <View className="bg-background-secondary relative flex-1">
-      <View className="absolute right-0 top-0">
+    <View className="relative flex-1 bg-background-secondary">
+      <View className="absolute right-0 top-0 z-10">
         <TopRightShape />
       </View>
       <SafeAreaView className="android:mt-12 flex-1 px-6">
         <View className="gap-[14px]">
-          <TextCustom className="text-custom-text-secondary font-nm-bold text-2xl/[130%]">
+          <TextCustom className="font-nm-bold text-2xl/[130%] text-custom-text-secondary">
             {header}
           </TextCustom>
-          <TextCustom className="text-custom-text-tertiary w-[20.375rem] text-xs/[130%]">
-            {description}
-          </TextCustom>
+          {description && (
+            <TextCustom className="w-[20.375rem] text-xs/[130%] text-custom-text-tertiary">
+              {description}
+            </TextCustom>
+          )}
         </View>
-        {children}
+        <View className="z-20">{children}</View>
       </SafeAreaView>
-      <View className="absolute bottom-0 left-0">
+      <View className="absolute bottom-0 left-0 z-10">
         <BottomLeftShape />
       </View>
     </View>

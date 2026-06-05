@@ -1,4 +1,4 @@
-import { WatchlistResponse } from '@/screens/home/constants/types';
+import { UserProfileResponse, WatchlistResponse } from '@/screens/home/constants/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import * as SecureStore from 'expo-secure-store';
 
@@ -59,6 +59,9 @@ export const profile = createApi({
     getWatchlist: builder.query<WatchlistResponse, any>({
       query: () => 'watchlist',
     }),
+    getCurrentProfile: builder.query<UserProfileResponse, any>({
+      query: () => '',
+    }),
   }),
 });
 
@@ -67,4 +70,5 @@ export const {
   useMarkAsReadMutation,
   useReadAllMutation,
   useGetWatchlistQuery,
+  useGetCurrentProfileQuery
 } = profile;

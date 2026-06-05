@@ -25,12 +25,14 @@ const Header = () => {
       }}
       className="flex-row items-center justify-between bg-background-2 pb-[14px] pl-6 pr-[14px] pt-20"
     >
-      <View className="size-9 overflow-hidden rounded-full">
-        <Image
-          source={require('../assets/img/avatar.jpg')}
-          className="size-full"
-        />
-      </View>
+      <Link href={'/home/profile'} asChild>
+        <Pressable className="size-9 active:opacity-75 overflow-hidden rounded-full">
+          <Image
+            source={require('../assets/img/avatar.jpg')}
+            className="size-full"
+          />
+        </Pressable>
+      </Link>
       <View className="flex-row items-center gap-2">
         <View className="size-11 items-center justify-center">
           <SearchIcon />
