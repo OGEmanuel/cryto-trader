@@ -1,7 +1,9 @@
 import { useAppForm } from '@/hooks/form';
+import { useUpdatePinMutation } from '@/services/profile';
 import { revalidateLogic } from '@tanstack/react-form';
 import { useReducer } from 'react';
 import { View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import z from 'zod';
 
 const formSchema = z
@@ -61,6 +63,33 @@ const TransactionPinForm = (props: { onClose: () => void }) => {
     initialState,
   );
 
+  const [updatePin, { isLoading }] = useUpdatePinMutation();
+
+  const handleUpdatePin = async (values: {
+    currentPin: string;
+    newPin: string;
+  }) => {
+    try {
+      await updatePin(values).unwrap();
+
+      Toast.show({
+        type: 'success',
+        text1: 'PIN Updated Successfully!',
+      });
+
+      form.reset();
+      onClose();
+    } catch (err: any) {
+      const message = err?.data?.error.message || 'Something went wrong';
+
+      Toast.show({
+        type: 'error',
+        text1: 'Login failed!',
+        text2: message,
+      });
+    }
+  };
+
   const form = useAppForm({
     defaultValues: {
       currentPin: '',
@@ -72,8 +101,10 @@ const TransactionPinForm = (props: { onClose: () => void }) => {
       onSubmit: formSchema,
     },
     onSubmit: ({ value }) => {
-      console.log(value);
-      onClose();
+      handleUpdatePin({
+        currentPin: value.currentPin,
+        newPin: value.newPin,
+      });
     },
   });
 
@@ -154,7 +185,7 @@ const TransactionPinForm = (props: { onClose: () => void }) => {
       <form.AppForm>
         <form.SubscribeButton
           onPress={form._handleSubmit}
-          // isPending={isLoading || isRefreshing}
+          isPending={isLoading}
           label={'Update PIN'}
         />
       </form.AppForm>

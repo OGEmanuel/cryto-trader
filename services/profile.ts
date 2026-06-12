@@ -1,4 +1,7 @@
-import { UserProfileResponse, WatchlistResponse } from '@/screens/home/constants/types';
+import {
+  UserProfileResponse,
+  WatchlistResponse,
+} from '@/screens/home/constants/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import * as SecureStore from 'expo-secure-store';
 
@@ -62,6 +65,19 @@ export const profile = createApi({
     getCurrentProfile: builder.query<UserProfileResponse, any>({
       query: () => '',
     }),
+    updatePin: builder.mutation<
+      any,
+      {
+        currentPin: string;
+        newPin: string;
+      }
+    >({
+      query: pin => ({
+        url: `pin`,
+        method: 'PATCH',
+        body: pin,
+      }),
+    }),
   }),
 });
 
@@ -70,5 +86,6 @@ export const {
   useMarkAsReadMutation,
   useReadAllMutation,
   useGetWatchlistQuery,
-  useGetCurrentProfileQuery
+  useGetCurrentProfileQuery,
+  useUpdatePinMutation,
 } = profile;

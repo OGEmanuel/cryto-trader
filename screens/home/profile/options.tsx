@@ -32,7 +32,7 @@ const OPTIONS_LIST = [
     id: 5,
     title: 'Watchlist',
     description: 'BTC, ETH, SOL',
-    link: '/home/profile/security' as Href,
+    // link: '/home/profile/security' as Href,
   },
 ];
 
