@@ -10,7 +10,7 @@ const ProfileScreen = () => {
 
   return (
     <RevampedWrapper header="Profile">
-      <View className="gap-[7rem]">
+      <View className="flex-1 gap-[7rem]">
         <View className="gap-10">
           <User />
           <Options />

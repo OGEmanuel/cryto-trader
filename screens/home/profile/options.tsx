@@ -1,32 +1,52 @@
-import TextCustom from '@/components/ui/text';
-import { Pressable, View } from 'react-native';
+import { Href, useRouter } from 'expo-router';
+import { View } from 'react-native';
+import OptionsCard from './components/options-card';
 
 const OPTIONS_LIST = [
-  { id: 1, title: 'Edit Profile', description: 'Name, email, phone' },
-  { id: 2, title: 'Security', description: '2FA, PIN, recovery codes' },
-  { id: 3, title: 'Price alerts', description: '3 active alerts' },
-  { id: 4, title: 'Notifications', description: '2 unread messages' },
-  { id: 5, title: 'Watchlist', description: 'BTC, ETH, SOL' },
+  {
+    id: 1,
+    title: 'Edit Profile',
+    description: 'Name, email, phone',
+  },
+  {
+    id: 2,
+    title: 'Security',
+    description: '2FA, PIN, recovery codes',
+    link: '/home/profile/security' as Href,
+  },
+  {
+    id: 3,
+    title: 'Price alerts',
+    description: '3 active alerts',
+    more: 3,
+    link: '/home/profile/price-alerts' as Href,
+  },
+  {
+    id: 4,
+    title: 'Notifications',
+    description: '2 unread messages',
+    more: 2,
+    link: '/home/profile/notifications' as Href,
+  },
+  {
+    id: 5,
+    title: 'Watchlist',
+    description: 'BTC, ETH, SOL',
+    link: '/home/profile/security' as Href,
+  },
 ];
 
 const Options = () => {
+  const router = useRouter();
   return (
     <View className="gap-3">
       {OPTIONS_LIST.map(item => (
-        <Pressable
+        <OptionsCard
           key={item.id}
-          className="flex-row items-center gap-[14px] rounded-2xl bg-background-tertiary px-[18px] py-4 active:opacity-75"
-        >
-          <View className="size-7 rounded-full bg-primary/95"></View>
-          <View className="gap-1">
-            <TextCustom className="font-nm-bold text-sm/[130%] text-custom-text-secondary">
-              {item.title}
-            </TextCustom>
-            <TextCustom className="text-[10px]/[130%] text-custom-text-tertiary">
-              {item.description}
-            </TextCustom>
-          </View>
-        </Pressable>
+          onPress={() => item.link && router.push(item.link)}
+          title={item.title}
+          description={item.description}
+        />
       ))}
     </View>
   );

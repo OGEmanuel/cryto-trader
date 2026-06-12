@@ -24,7 +24,7 @@ const MarketsScreen = () => {
           onChangeText={handleChange}
           placeholder="Search coin or symbol"
           placeholderTextColor={Colors.light['custom-text-tertiary']}
-          className="bg-background-tertiary text-custom-text-secondary h-12 rounded-[14px] px-6 font-nm text-xs/[130%]"
+          className="h-12 rounded-[14px] bg-background-tertiary px-6 font-nm text-xs/[130%] text-custom-text-secondary"
           returnKeyType="search"
           autoCapitalize="none"
           autoCorrect={false}

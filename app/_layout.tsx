@@ -8,6 +8,7 @@ import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
 import { Provider } from 'react-redux';
 
@@ -40,39 +41,41 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <StatusBar style="light" />
-      <View className="flex-1 bg-background">
-        <Stack
-          screenOptions={{
-            contentStyle: {
-              backgroundColor: Colors.light.background,
-            },
-            headerShown: false,
-          }}
-        >
-          <Stack.Protected guard={isOnboarded ? false : true}>
+      <GestureHandlerRootView className="flex-1">
+        <StatusBar style="light" />
+        <View className="flex-1 bg-background">
+          <Stack
+            screenOptions={{
+              contentStyle: {
+                backgroundColor: Colors.light.background,
+              },
+              headerShown: false,
+            }}
+          >
+            <Stack.Protected guard={isOnboarded ? false : true}>
+              <Stack.Screen
+                name={'(onboarding)/index'}
+                options={{
+                  title: 'Onboarding',
+                }}
+              />
+            </Stack.Protected>
             <Stack.Screen
-              name={'(onboarding)/index'}
+              name={'auth/index'}
               options={{
-                title: 'Onboarding',
+                title: 'Auth',
               }}
             />
-          </Stack.Protected>
-          <Stack.Screen
-            name={'auth/index'}
-            options={{
-              title: 'Auth',
-            }}
-          />
-          <Stack.Screen
-            name={'home'}
-            options={{
-              title: 'Home',
-            }}
-          />
-        </Stack>
-        <Toast />
-      </View>
+            <Stack.Screen
+              name={'home'}
+              options={{
+                title: 'Home',
+              }}
+            />
+          </Stack>
+          <Toast />
+        </View>
+      </GestureHandlerRootView>
     </Provider>
   );
 }

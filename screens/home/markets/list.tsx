@@ -2,9 +2,9 @@ import TextCustom from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { useGetAssetsQuery, useGetTrendingQuery } from '@/services/markets';
 import { useGetWatchlistQuery } from '@/services/profile';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useEffect, useState } from 'react';
 import { FlatList, Platform, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from '../constants/types';
 import TrendDown from './assets/icons/trend-down.svg';
@@ -15,7 +15,7 @@ const AssetsList = (props: {
   search: string;
 }) => {
   const { active, search } = props;
-  const tabBarHeight = useBottomTabBarHeight();
+  const insets = useSafeAreaInsets();
   const [displayedAssets, setDisplayedAssets] = useState<Asset[] | undefined>(
     [],
   );
@@ -49,7 +49,7 @@ const AssetsList = (props: {
     } else {
       setDisplayedAssets(watchlistData?.data);
     }
-  }, [active]);
+  }, [active, data, trendingData, watchlistData]);
 
   const RenderAssetsList = (props: { coinList: Asset }) => {
     const { coinList } = props;
@@ -57,15 +57,17 @@ const AssetsList = (props: {
     const svgUri = `${process.env.EXPO_PUBLIC_API_URL}${coinList.iconUrl.slice(1)}`;
 
     return (
-      <View className="bg-background-tertiary flex-row items-center justify-between rounded-2xl p-4">
+      <View className="flex-row items-center justify-between rounded-2xl bg-background-tertiary p-4">
         <View className="flex-row items-center gap-8">
           <View className="w-28 flex-row items-center gap-[10px]">
-            <SvgUri width={36} height={36} uri={svgUri} />
+            <View className="size-9 rounded-full">
+              <SvgUri width={36} height={36} uri={svgUri} />
+            </View>
             <View className="gap-1">
-              <TextCustom className="text-custom-text-secondary font-nm-bold text-sm/[130%]">
+              <TextCustom className="font-nm-bold text-sm/[130%] text-custom-text-secondary">
                 {coinList.name}
               </TextCustom>
-              <TextCustom className="text-custom-text-tertiary text-xs/[130%]">
+              <TextCustom className="text-xs/[130%] text-custom-text-tertiary">
                 {coinList.symbol}
               </TextCustom>
             </View>
@@ -73,7 +75,7 @@ const AssetsList = (props: {
           {isPositive ? <TrendUp /> : <TrendDown />}
         </View>
         <View className="items-end gap-1">
-          <TextCustom className="text-custom-text-secondary font-nm-medium text-sm/[130%]">
+          <TextCustom className="font-nm-medium text-sm/[130%] text-custom-text-secondary">
             ${coinList.priceUsd}
           </TextCustom>
           <TextCustom
@@ -110,7 +112,10 @@ const AssetsList = (props: {
         )}
         contentContainerStyle={{
           paddingBottom:
-            Platform.OS === 'android' ? tabBarHeight + 64 : tabBarHeight,
+            Platform.OS === 'android'
+              ? insets.bottom + 112
+              : insets.bottom + 44,
+          // Platform.OS === 'android' ? tabBarHeight + 64 : tabBarHeight,
         }}
         keyExtractor={item => item.id.toString()}
       />

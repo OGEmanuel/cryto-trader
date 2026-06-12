@@ -27,11 +27,14 @@ module.exports = {
         'custom-text-secondary': '#F1F6F8',
         'custom-text-tertiary': '#8594A6',
         extra: '#E3E8ED',
-    'custom-extra': '#F1F6F8',
+        'custom-extra': '#F1F6F8',
         destructive: '#DD4B4B',
         'destructive-2': '#E4484C',
+    'destructive-3': '#E45252',
         notify: '#4AA8FF',
         warning: '#D5BB5E',
+        'warning-2': '#2B2416',
+        'warning-3': '#C9A96C'
       },
       fontFamily: {
         'nm-light': ['NeueMontreal-Light'],
