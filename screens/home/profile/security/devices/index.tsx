@@ -29,7 +29,7 @@ const DevicesScreen = () => {
     <RevampedWrapper
       header="Devices"
       description="Registered devices for push notification and session awareness."
-      canGoBack
+      goBackTo={'/home/profile'}
     >
       <View className="gap-24 pt-7">
         <FlatList

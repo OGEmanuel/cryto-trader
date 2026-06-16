@@ -3,7 +3,7 @@ import TextCustom from '@/components/ui/text';
 import { Colors } from '@/constants/theme';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
-import { useRouter } from 'expo-router';
+import { Href, useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,7 +14,7 @@ const RevampedWrapper = (props: {
   children: React.ReactNode;
   header: string;
   description?: string;
-  canGoBack?: boolean;
+  goBackTo?: Href;
   bottomSheetRef?: React.RefObject<BottomSheetMethods | null>;
   bottomSheetContent?: React.ReactNode;
 }) => {
@@ -22,7 +22,7 @@ const RevampedWrapper = (props: {
     children,
     header,
     description,
-    canGoBack,
+    goBackTo,
     bottomSheetRef,
     bottomSheetContent,
   } = props;
@@ -38,9 +38,9 @@ const RevampedWrapper = (props: {
         </View>
         <SafeAreaView className="android:mt-12 flex-1 px-6">
           <View className="gap-[14px]">
-            {canGoBack && (
+            {goBackTo && (
               <Pressable
-                onPress={() => router.back()}
+                onPress={() => router.push(goBackTo)}
                 className="active:opacity-75"
               >
                 <ArrowIcon />

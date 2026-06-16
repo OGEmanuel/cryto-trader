@@ -84,7 +84,7 @@ const TransactionPinForm = (props: { onClose: () => void }) => {
 
       Toast.show({
         type: 'error',
-        text1: 'Login failed!',
+        text1: 'PIN Update failed!',
         text2: message,
       });
     }

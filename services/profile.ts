@@ -4,26 +4,7 @@ import {
 } from '@/screens/home/constants/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import * as SecureStore from 'expo-secure-store';
-
-export interface Notification {
-  id: string;
-  userId: string;
-  title: string;
-  body: string;
-  type: string;
-  isRead: boolean;
-  createdAt: string;
-}
-
-export interface NotificationsMeta {
-  count: number;
-  unread: number;
-}
-
-export interface NotificationsResponse {
-  data: Notification[];
-  meta: NotificationsMeta;
-}
+import { NotificationsResponse } from './constants/types';
 
 export const profile = createApi({
   reducerPath: 'profile',
@@ -39,7 +20,7 @@ export const profile = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Notifications'],
+  tagTypes: ['Notifications', 'Profile'],
   endpoints: builder => ({
     getNotifications: builder.query<NotificationsResponse, any>({
       query: () => 'notifications',
@@ -64,6 +45,7 @@ export const profile = createApi({
     }),
     getCurrentProfile: builder.query<UserProfileResponse, any>({
       query: () => '',
+      providesTags: ['Profile'],
     }),
     updatePin: builder.mutation<
       any,

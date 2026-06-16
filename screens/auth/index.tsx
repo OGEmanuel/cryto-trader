@@ -1,5 +1,5 @@
 import { getFullWidth } from '@/lib/utils';
-import { useRouter } from 'expo-router';
+import BottomSheet from '@gorhom/bottom-sheet';
 import { useRef, useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -8,6 +8,7 @@ import {
   ScrollView,
   View,
 } from 'react-native';
+import BottomSheetContent from './components/bottom-sheet-content';
 import LayoutWrapper from './components/layout-wrapper';
 import SignIn from './sign-in';
 import SignUp from './sign-up';
@@ -27,7 +28,10 @@ const AUTH_PAGES = [
 const AuthScreen = () => {
   const scrollRef = useRef<ScrollView>(null);
   const [page, setPage] = useState<number>(0);
-  const router = useRouter();
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const handleOpenPress = () => bottomSheetRef.current?.expand();
+  const handleClosePress = () => bottomSheetRef.current?.close();
 
   const handleScrollEnd = (
     e: NativeSyntheticEvent<NativeScrollEvent>,
@@ -49,7 +53,12 @@ const AuthScreen = () => {
   };
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper
+      bottomSheetRef={bottomSheetRef}
+      bottomSheetContent={
+        <BottomSheetContent bottomSheetClose={() => handleClosePress()} />
+      }
+    >
       <KeyboardAvoidingView
         behavior={'padding'}
         keyboardVerticalOffset={20}
@@ -66,7 +75,7 @@ const AuthScreen = () => {
             showsHorizontalScrollIndicator={false}
             onMomentumScrollEnd={handleScrollEnd}
           >
-            <SignIn />
+            <SignIn onOpenBottomSheet={() => handleOpenPress()} />
             <SignUp />
           </ScrollView>
         </View>

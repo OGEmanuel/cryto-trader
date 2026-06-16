@@ -3,15 +3,7 @@ import {
   TrendingAssetsResponse,
 } from '@/screens/home/constants/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-type GetAssetsParams = {
-  q?: string;
-  search?: string;
-  page?: number;
-  limit?: number;
-  sort?: 'symbol' | 'priceUsd' | 'change24h' | 'minBuyUsd';
-  order?: 'asc' | 'desc';
-};
+import { GetAssetsParams } from './constants/types';
 
 export const markets = createApi({
   reducerPath: 'markets',

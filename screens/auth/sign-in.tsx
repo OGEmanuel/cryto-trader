@@ -8,11 +8,13 @@ import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { useDispatch } from 'react-redux';
 import z from 'zod';
 import FacebookIcon from './assets/icons/facebook-icon.svg';
 import FingerprintIcon from './assets/icons/fingerprint-icon.svg';
 import GoogleIcon from './assets/icons/google-icon.svg';
 import PageWrapper from './components/tab-wrapper';
+import { setChallengeIDValue } from './store/challenge-store';
 
 const emailSchema = z.object({
   email: z.email({ error: 'Please enter a valid email address.' }),
@@ -23,9 +25,11 @@ const emailSchema = z.object({
 
 type formSchemaType = z.infer<typeof emailSchema>;
 
-const SignIn = () => {
+const SignIn = (props: { onOpenBottomSheet: () => void }) => {
+  const { onOpenBottomSheet } = props;
   const [isRefreshAvailable, setIsRefreshAvailable] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
   const [securePassword, setSecurePassword] = useState(true);
 
   const [login, { isLoading }] = useLoginMutation();
@@ -74,16 +78,23 @@ const SignIn = () => {
     try {
       const response = await login(values).unwrap();
 
-      await SecureStore.setItemAsync('accessToken', response.data.accessToken);
+      if ('challengeId' in response.data) {
+        onOpenBottomSheet();
+        dispatch(setChallengeIDValue(response.data.challengeId));
+      } else {
+        await SecureStore.setItemAsync(
+          'accessToken',
+          response.data.accessToken,
+        );
 
-      await SecureStore.setItemAsync(
-        'refreshToken',
-        response.data.refreshToken,
-      );
+        await SecureStore.setItemAsync(
+          'refreshToken',
+          response.data.refreshToken,
+        );
+        await SecureStore.setItemAsync('expiresAt', response.data.expiresAt);
 
-      await SecureStore.setItemAsync('expiresAt', response.data.expiresAt);
-
-      router.replace('/home');
+        router.replace('/home');
+      }
     } catch (err: any) {
       const message = err?.data?.error.message || 'Something went wrong';
 

@@ -1,5 +1,6 @@
 import RevampedWrapper from '@/screens/home/components/revamped-wrapper';
 import BottomSheet from '@gorhom/bottom-sheet';
+import { useLocalSearchParams } from 'expo-router';
 import { useRef } from 'react';
 import { View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -7,6 +8,8 @@ import SecurityCard from '../components/security-card';
 import AuthAppForm from './form';
 
 const AuthAppScreen = () => {
+  const params = useLocalSearchParams<{ secret: string; otpauthUri: string }>();
+
   const bottomSheetRef = useRef<BottomSheet>(null);
   const handleOpenPress = () => bottomSheetRef.current?.expand();
   const handleClosePress = () => bottomSheetRef.current?.close();
@@ -15,7 +18,7 @@ const AuthAppScreen = () => {
     <RevampedWrapper
       header="Set up 2FA"
       description="Scan the code, then enter your authenticator code."
-      canGoBack
+      goBackTo={'/home/profile/security'}
       bottomSheetRef={bottomSheetRef}
       bottomSheetContent={<AuthAppForm onClose={() => handleClosePress()} />}
     >
@@ -23,7 +26,7 @@ const AuthAppScreen = () => {
         <View className="items-center">
           <View className="size-[160px] items-center justify-center rounded-2xl bg-white">
             <QRCode
-              value="n2e5dirgMNYdQskfiP5zj39VYemXareK4C"
+              value={params.otpauthUri}
               color="black"
               backgroundColor="white"
               size={120}
@@ -31,7 +34,7 @@ const AuthAppScreen = () => {
           </View>
         </View>
         <View className="gap-4">
-          <SecurityCard name="Secret" value="JBSW Y3DP EHPK 3PXP" />
+          <SecurityCard name="Secret" value={params.secret} />
           <SecurityCard
             name="Authenticator code"
             value="Enter Code"

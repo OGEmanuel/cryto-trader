@@ -1,53 +1,100 @@
 import TextCustom from '@/components/ui/text';
+import { cn } from '@/lib/utils';
+import { useSetup2faMutation } from '@/services/auth';
+import { useGetCurrentProfileQuery } from '@/services/profile';
+import BottomSheet from '@gorhom/bottom-sheet';
 import { Href, useRouter } from 'expo-router';
+import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import RevampedWrapper from '../../components/revamped-wrapper';
 import OptionsCard from '../components/options-card';
-
-const OPTIONS_LIST = [
-  {
-    id: 1,
-    title: 'Transaction PIN',
-    description: 'Required for trades and withdrawals',
-    link: '/home/profile/security/transaction-pin' as Href,
-    more: 'Set',
-  },
-  {
-    id: 2,
-    title: 'Authenticator app',
-    description: 'Enabled for login protection',
-    link: '/home/profile/security/auth-app' as Href,
-    more: 'On',
-  },
-  {
-    id: 3,
-    title: 'Recovery codes',
-    description: '8 backup codes remaining',
-    more: 'View',
-    link: '/home/profile/security/recovery-codes' as Href,
-  },
-  {
-    id: 4,
-    title: 'Registered devices',
-    description: 'iPhone 15 Pro · push enabled',
-    more: '2',
-    link: '/home/profile/security/devices' as Href,
-  },
-  {
-    id: 5,
-    title: 'Biometric login',
-    description: 'Face ID enabled on this device',
-    more: 'On',
-  },
-];
+import Disable2fa from './components/disable-2fa';
 
 const SecurityScreen = () => {
   const router = useRouter();
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const handleOpenPress = () => bottomSheetRef.current?.expand();
+  const handleClosePress = () => bottomSheetRef.current?.close();
+  const { data, isError, isLoading } = useGetCurrentProfileQuery({});
+
+  const [setup2fa, { isLoading: isSettingUp2fa }] = useSetup2faMutation();
+
+  const handleSetup2fa = async () => {
+    if (data?.data.twoFactorEnabled) {
+      handleOpenPress();
+      return;
+    }
+    try {
+      const response = await setup2fa({}).unwrap();
+
+      router.push({
+        pathname: '/home/profile/security/auth-app',
+        params: {
+          secret: response.data.secret,
+          otpauthUri: response.data.otpauthUri,
+        },
+      });
+    } catch (err: any) {
+      const message = err?.data?.error.message || 'Something went wrong';
+
+      Toast.show({
+        type: 'error',
+        text1: 'Setup Failed',
+        text2: message,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isError) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error fetching user data',
+        text2: 'Please try again!',
+      });
+    }
+  }, [isError]);
+
+  const OPTIONS_LIST = [
+    {
+      id: 1,
+      title: 'Transaction PIN',
+      description: 'Required for trades and withdrawals',
+      link: '/home/profile/security/transaction-pin' as Href,
+      more: 'Set',
+    },
+    {
+      id: 2,
+      title: 'Authenticator app',
+      description: 'Enabled for login protection',
+      link: '/home/profile/security/auth-app' as Href,
+      more: data ? (data.data.twoFactorEnabled ? 'On' : 'Off') : 'off',
+    },
+    {
+      id: 3,
+      title: 'Registered devices',
+      description: 'iPhone 15 Pro · push enabled',
+      more: '2',
+      link: '/home/profile/security/devices' as Href,
+    },
+    {
+      id: 4,
+      title: 'Biometric login',
+      description: 'Face ID enabled on this device',
+      more: 'On',
+    },
+  ];
+
   return (
     <RevampedWrapper
       header="Security"
       description="Protect account access and sensitive actions."
-      canGoBack
+      goBackTo={'/home/profile'}
+      bottomSheetRef={bottomSheetRef}
+      bottomSheetContent={
+        <Disable2fa bottomSheetClose={() => handleClosePress()} />
+      }
     >
       <View className="gap-11 pt-5">
         <View className="gap-3">
@@ -57,7 +104,19 @@ const SecurityScreen = () => {
               description={list.description}
               title={list.title}
               more={list.more}
-              onPress={() => list.link && router.push(list.link)}
+              disabled={isError || isLoading || isSettingUp2fa}
+              isLoading={isLoading}
+              onPress={() =>
+                list.title.toLowerCase().includes('authenticator')
+                  ? handleSetup2fa()
+                  : list.link && router.push(list.link)
+              }
+              indicatorClassName={cn(
+                list.more.toLowerCase() === 'off' && 'bg-destructive-3',
+              )}
+              moreClassName={cn(
+                list.more.toLowerCase() === 'off' && 'text-destructive-3',
+              )}
             />
           ))}
         </View>

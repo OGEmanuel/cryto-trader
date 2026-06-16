@@ -34,7 +34,7 @@ const PriceAlertsScreen = () => {
     <RevampedWrapper
       header="Price alerts"
       description="Create, edit, pause, or delete market alerts."
-      canGoBack
+      goBackTo={'/home'}
     >
       <View className="pt-7">
         <View className="gap-6">
@@ -86,7 +86,7 @@ const PriceAlertsScreen = () => {
                 <Button
                   label="Delete"
                   labelClassName="font-nm-bold text-custom-text-3"
-                  className="bg-destructive-3 flex-1"
+                  className="flex-1 bg-destructive-3"
                 />
               </View>
             </View>

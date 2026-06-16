@@ -30,7 +30,7 @@ const NotificationsScreen = () => {
     <RevampedWrapper
       header="Notifications"
       description="Security, KYC, transaction, and alert messages."
-      canGoBack
+      goBackTo={'/home'}
     >
       <View className="gap-6 pt-7">
         <Button

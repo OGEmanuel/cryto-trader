@@ -14,11 +14,13 @@ export function SubscribeButton({
   className,
   isPending,
   onPress,
+  disabled,
 }: {
   label: string;
   className?: string;
   isPending?: boolean;
   onPress: () => void;
+  disabled?: boolean;
 }) {
   const form = useFormContext();
   return (
@@ -27,7 +29,7 @@ export function SubscribeButton({
         <Button
           onPress={onPress}
           isPending={isPending || isSubmitting}
-          disabled={isPending || isSubmitting}
+          disabled={isPending || isSubmitting || disabled}
           label={label}
           className={cn('w-full', className)}
         />

@@ -1,64 +1,31 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import * as SecureStore from 'expo-secure-store';
+import {
+  RegisterResponse,
+  RegisterType,
+  TwoFactorChallengeResponse,
+  TwoFactorRecoveryResponse,
+  TwoFactorSetupResponse,
+  VerifyOtpResponse,
+} from './constants/types';
 
-export type RegisterType = {
-  fullName: string;
-  email: string;
-  phone: string;
-  password: string;
-};
-
-export type RegisterResponse = {
-  data: RegisterResponseData;
-};
-
-export type RegisterResponseData = {
-  user: User;
-  token: string;
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
-  expiresAt: string;
-  expiresInSeconds: number;
-  refreshTokenExpiresAt: string;
-};
-
-export type User = {
-  id: string;
-  role: 'customer' | 'admin' | string;
-  fullName: string;
-  email: string;
-  phone: string;
-  twoFactorEnabled: boolean;
-  kycStatus: 'pending' | 'approved' | 'rejected' | string;
-  avatarUrl: string | null;
-  watchlist: string[];
-  settings: UserSettings;
-  createdAt: string;
-};
-
-export type UserSettings = {
-  language: string;
-  fiatCurrency: string;
-  theme: 'light' | 'dark' | 'system' | string;
-  pushNotifications: boolean;
-  biometricEnabled: boolean;
-};
-
-export type OtpData = {
-  message: string;
-  demoCode: string;
-  expiresInSeconds: number;
-};
-
-export type VerifyOtpResponse = {
-  data: OtpData;
-};
+type LoginResponse = RegisterResponse | TwoFactorChallengeResponse;
 
 export const auth = createApi({
   reducerPath: 'auth',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.EXPO_PUBLIC_API_URL}auth/`,
+    prepareHeaders: async headers => {
+      const token = await SecureStore.getItemAsync('accessToken');
+
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+
+      return headers;
+    },
   }),
+
   endpoints: builder => ({
     register: builder.mutation<RegisterResponse, RegisterType>({
       query: register => ({
@@ -68,7 +35,7 @@ export const auth = createApi({
       }),
     }),
     login: builder.mutation<
-      RegisterResponse,
+      LoginResponse,
       {
         loginType: 'email';
         identifier: string;
@@ -108,6 +75,48 @@ export const auth = createApi({
         body: verify,
       }),
     }),
+    setup2fa: builder.mutation<TwoFactorSetupResponse, any>({
+      query: () => ({
+        url: '2fa/setup',
+        method: 'POST',
+      }),
+    }),
+    enable2fa: builder.mutation<TwoFactorRecoveryResponse, { code: string }>({
+      query: enable => ({
+        url: '2fa/enable',
+        method: 'POST',
+        body: enable,
+        invalidatesTags: ['Profile'],
+      }),
+    }),
+    verify2fa: builder.mutation<
+      RegisterResponse,
+      {
+        challengeId: string;
+        code: string;
+        recoveryCode: string;
+      }
+    >({
+      query: verify => ({
+        url: '2fa/verify',
+        method: 'POST',
+        body: verify,
+      }),
+    }),
+    disable2fa: builder.mutation<
+      TwoFactorRecoveryResponse,
+      {
+        password: string;
+        code: string;
+        recoveryCode: string;
+      }
+    >({
+      query: disable => ({
+        url: '2fa/disable',
+        method: 'POST',
+        body: disable,
+      }),
+    }),
   }),
 });
 
@@ -117,4 +126,8 @@ export const {
   useVerifyOtpMutation,
   useLoginMutation,
   useRefreshMutation,
+  useSetup2faMutation,
+  useEnable2faMutation,
+  useVerify2faMutation,
+  useDisable2faMutation,
 } = auth;

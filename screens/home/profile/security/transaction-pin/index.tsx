@@ -15,7 +15,7 @@ const TransactionPinScreen = () => {
     <RevampedWrapper
       header="Transaction PIN"
       description="Update the PIN used for trade and withdrawal confirmations."
-      canGoBack
+      goBackTo={'/home/profile/security'}
       bottomSheetRef={bottomSheetRef}
       bottomSheetContent={
         <TransactionPinForm onClose={() => handleClosePress()} />
