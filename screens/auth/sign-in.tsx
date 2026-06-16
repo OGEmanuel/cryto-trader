@@ -28,6 +28,7 @@ type formSchemaType = z.infer<typeof emailSchema>;
 const SignIn = (props: { onOpenBottomSheet: () => void }) => {
   const { onOpenBottomSheet } = props;
   const [isRefreshAvailable, setIsRefreshAvailable] = useState(false);
+  const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const [securePassword, setSecurePassword] = useState(true);
@@ -38,7 +39,11 @@ const SignIn = (props: { onOpenBottomSheet: () => void }) => {
   useEffect(() => {
     const handleCheckRefresh = async () => {
       const refreshToken = await SecureStore.getItemAsync('refreshToken');
+      const isBiometricsEnabled = await SecureStore.getItemAsync(
+        'isBiometricsEnabled',
+      );
 
+      setIsBiometricsEnabled(Boolean(isBiometricsEnabled));
       setIsRefreshAvailable(Boolean(refreshToken));
     };
 
@@ -257,7 +262,7 @@ const SignIn = (props: { onOpenBottomSheet: () => void }) => {
             </View>
           </View>
         </View>
-        {isRefreshAvailable && (
+        {isRefreshAvailable && isBiometricsEnabled && (
           <View className="flex-row justify-center">
             <Pressable
               onPress={handleBiometricAuth}

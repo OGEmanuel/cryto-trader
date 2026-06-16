@@ -1,10 +1,7 @@
 import TextCustom from '@/components/ui/text';
 import { useAppForm } from '@/hooks/form';
-import {
-  RegisterType,
-  useRegisterMutation,
-  useRequestOtpMutation,
-} from '@/services/auth';
+import { useRegisterMutation, useRequestOtpMutation } from '@/services/auth';
+import { RegisterType } from '@/services/constants/types';
 import { revalidateLogic } from '@tanstack/react-form';
 import * as Clipboard from 'expo-clipboard';
 import { useRouter } from 'expo-router';

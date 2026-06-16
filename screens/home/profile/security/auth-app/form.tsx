@@ -57,9 +57,9 @@ const AuthAppForm = (props: { onClose: () => void }) => {
       <form.AppField name="code">
         {field => (
           <field.TextField
-            inputLabel="Current Pin"
+            inputLabel="Authenticator Code"
             inputProps={{
-              placeholder: 'Enter your 6-digit PIN',
+              placeholder: 'Enter your 6-digit Code',
               keyboardType: 'number-pad',
               maxLength: 6,
               textContentType: 'oneTimeCode',
