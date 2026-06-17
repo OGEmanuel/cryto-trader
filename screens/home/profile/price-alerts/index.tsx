@@ -3,7 +3,7 @@ import TextCustom from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { FlatList, Modal, View } from 'react-native';
-import RevampedWrapper from '../../components/revamped-wrapper';
+import RevampedWrapper from '@/components/revamped-wrapper';
 import OptionsCard from '../components/options-card';
 
 const ALERTS_LIST = [

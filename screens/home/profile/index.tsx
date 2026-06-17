@@ -1,7 +1,7 @@
 import Button from '@/components/ui/button';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
-import RevampedWrapper from '../components/revamped-wrapper';
+import RevampedWrapper from '@/components/revamped-wrapper';
 import Options from './options';
 import User from './user';
 

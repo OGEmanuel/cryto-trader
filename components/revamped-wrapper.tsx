@@ -1,4 +1,6 @@
 import ArrowIcon from '@/assets/icons/arrow-icon.svg';
+import BottomLeftShape from '@/assets/icons/bl-shape.svg';
+import TopRightShape from '@/assets/icons/tr-shape.svg';
 import TextCustom from '@/components/ui/text';
 import { Colors } from '@/constants/theme';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
@@ -7,8 +9,6 @@ import { Href, useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import BottomLeftShape from '../assets/icons/bl-shape.svg';
-import TopRightShape from '../assets/icons/tr-shape.svg';
 
 const RevampedWrapper = (props: {
   children: React.ReactNode;
@@ -32,7 +32,7 @@ const RevampedWrapper = (props: {
 
   return (
     <View className="flex-1">
-      <View className="relative flex-1 bg-background-secondary">
+      <View className="relative flex-1 bg-custom-text-3">
         <View className="absolute right-0 top-0 z-10">
           <TopRightShape />
         </View>

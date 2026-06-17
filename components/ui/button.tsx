@@ -50,7 +50,9 @@ const Button = (props: {
         <TextCustom
           className={cn(
             'text-lg/[100%]',
-            variant === 'primary' ? 'text-foreground' : 'text-white',
+            variant === 'primary'
+              ? 'font-nm-medium text-foreground'
+              : 'text-white',
             labelClassName,
           )}
         >

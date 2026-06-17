@@ -72,6 +72,12 @@ export default function RootLayout() {
                 title: 'Home',
               }}
             />
+            <Stack.Screen
+              name={'kyc/index'}
+              options={{
+                title: 'Kyc',
+              }}
+            />
           </Stack>
           <Toast />
         </View>

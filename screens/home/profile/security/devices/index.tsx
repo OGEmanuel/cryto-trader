@@ -1,6 +1,6 @@
+import RevampedWrapper from '@/components/revamped-wrapper';
 import TextCustom from '@/components/ui/text';
 import { cn } from '@/lib/utils';
-import RevampedWrapper from '@/screens/home/components/revamped-wrapper';
 import { FlatList, View } from 'react-native';
 import OptionsCard from '../../components/options-card';
 

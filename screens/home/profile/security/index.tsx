@@ -9,7 +9,7 @@ import * as SecureStore from 'expo-secure-store';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, View } from 'react-native';
 import Toast from 'react-native-toast-message';
-import RevampedWrapper from '../../components/revamped-wrapper';
+import RevampedWrapper from '@/components/revamped-wrapper';
 import OptionsCard from '../components/options-card';
 import Disable2fa from './components/disable-2fa';
 

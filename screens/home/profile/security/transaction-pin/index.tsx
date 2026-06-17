@@ -1,5 +1,5 @@
+import RevampedWrapper from '@/components/revamped-wrapper';
 import TextCustom from '@/components/ui/text';
-import RevampedWrapper from '@/screens/home/components/revamped-wrapper';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { useRef } from 'react';
 import { View } from 'react-native';

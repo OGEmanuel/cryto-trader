@@ -1,8 +1,8 @@
+import RevampedWrapper from '@/components/revamped-wrapper';
 import Button from '@/components/ui/button';
 import TextCustom from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { RootState } from '@/redux/store';
-import RevampedWrapper from '@/screens/home/components/revamped-wrapper';
 import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { FlatList, View } from 'react-native';

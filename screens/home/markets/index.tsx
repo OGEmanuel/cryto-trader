@@ -1,7 +1,7 @@
 import { Colors } from '@/constants/theme';
 import { useState } from 'react';
 import { TextInput, View } from 'react-native';
-import RevampedWrapper from '../components/revamped-wrapper';
+import RevampedWrapper from '@/components/revamped-wrapper';
 import AssetsList from './list';
 import MarketTabs from './tabs';
 

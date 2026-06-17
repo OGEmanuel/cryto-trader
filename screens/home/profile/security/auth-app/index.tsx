@@ -1,4 +1,4 @@
-import RevampedWrapper from '@/screens/home/components/revamped-wrapper';
+import RevampedWrapper from '@/components/revamped-wrapper';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { useLocalSearchParams } from 'expo-router';
 import { useRef } from 'react';

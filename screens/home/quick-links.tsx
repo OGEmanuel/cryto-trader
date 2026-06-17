@@ -1,54 +1,39 @@
 import TextCustom from '@/components/ui/text';
 import RocketIcon from '@/screens/home/assets/icons/rocket.svg';
+import { Link } from 'expo-router';
 import { Image, Pressable, View } from 'react-native';
 import ArrowIcon from './assets/icons/arrow-right.svg';
-import CreditCardIcon from './assets/icons/credit-card.svg';
-
-const QUICK_LINKS = [
-  {
-    id: 1,
-    name: 'P2P Trading',
-    description: 'Bank Transfer, Paypal Revolut...',
-    icon: <RocketIcon />,
-  },
-  {
-    id: 2,
-    name: 'Credit/Debit Card',
-    description: 'Visa, Mastercard',
-    icon: <CreditCardIcon />,
-  },
-];
 
 const QuickLinks = () => {
   return (
-    <View className="gap-[8.34px] px-6 pt-5">
-      {QUICK_LINKS.map(link => (
-        <View
-          key={link.id}
-          className="bg-extra/50 flex-row items-center justify-between rounded-2xl p-3"
-        >
+    <View className="px-6 pt-5">
+      <Link href={'/kyc'} asChild>
+        <Pressable className="flex-row items-center justify-between rounded-2xl bg-extra/50 p-3 active:opacity-75">
           <View className="flex-row items-center gap-4">
             <View className="relative size-[3.25rem]">
               <Image
                 source={require('./assets/img/icon-bg.png')}
                 className="size-full"
               />
-              <View className="absolute">{link.icon}</View>
+              <View className="absolute">
+                <RocketIcon />
+              </View>
             </View>
             <View className="gap-2">
-              <TextCustom className="text-base/[100%] text-background">
-                {link.name}
+              <TextCustom className="font-nm-medium text-base/[100%] text-background">
+                Verify to trade
               </TextCustom>
-              <TextCustom className="text-sm/[100%] text-custom-text-2">
-                {link.description}
+              <TextCustom className="max-w-[15.625rem] text-sm/[100%] text-custom-tertiary">
+                Trading and withdrawals are locked until your identity is
+                approved.
               </TextCustom>
             </View>
           </View>
-          <Pressable className="bg-extra size-10 items-center justify-center rounded-2xl active:opacity-75">
+          <View className="size-10 items-center justify-center rounded-2xl bg-extra">
             <ArrowIcon />
-          </Pressable>
-        </View>
-      ))}
+          </View>
+        </Pressable>
+      </Link>
     </View>
   );
 };
