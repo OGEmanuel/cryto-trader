@@ -17,6 +17,7 @@ const RevampedWrapper = (props: {
   goBackTo?: Href;
   bottomSheetRef?: React.RefObject<BottomSheetMethods | null>;
   bottomSheetContent?: React.ReactNode;
+  onGoBackTo?: () => void;
 }) => {
   const {
     children,
@@ -25,6 +26,7 @@ const RevampedWrapper = (props: {
     goBackTo,
     bottomSheetRef,
     bottomSheetContent,
+    onGoBackTo,
   } = props;
   const snapPoints = useMemo(() => ['60%', '85%'], []);
 
@@ -40,9 +42,14 @@ const RevampedWrapper = (props: {
           <View className="gap-[14px]">
             {goBackTo && (
               <Pressable
-                onPress={() => router.push(goBackTo)}
+                onPress={() => router.replace(goBackTo)}
                 className="active:opacity-75"
               >
+                <ArrowIcon />
+              </Pressable>
+            )}
+            {onGoBackTo && (
+              <Pressable onPress={onGoBackTo} className="active:opacity-75">
                 <ArrowIcon />
               </Pressable>
             )}

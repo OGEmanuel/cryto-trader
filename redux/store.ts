@@ -1,10 +1,13 @@
+import challengeIDReducer from '@/screens/auth/store/challenge-store';
+import recoveryReducer from '@/screens/home/profile/security/store/recovery-store';
+import countryControlReducer from '@/screens/kyc/store/country-selector';
+import documentControlReducer from '@/screens/kyc/store/document-selector';
+import pageControlReducer from '@/screens/kyc/store/page-control';
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { auth } from '../services/auth';
 import { markets } from '../services/markets';
 import { profile } from '../services/profile';
-import recoveryReducer from '@/screens/home/profile/security/store/recovery-store';
-import challengeIDReducer from '@/screens/auth/store/challenge-store';
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +15,10 @@ export const store = configureStore({
     [markets.reducerPath]: markets.reducer,
     [profile.reducerPath]: profile.reducer,
     recovery: recoveryReducer,
-    challengeId: challengeIDReducer 
+    challengeId: challengeIDReducer,
+    pageControl: pageControlReducer,
+    countryControl: countryControlReducer,
+    documentControl: documentControlReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(

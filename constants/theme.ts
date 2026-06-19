@@ -40,6 +40,7 @@ export const Colors = {
     warning: '#D5BB5E',
     'warning-2': '#2B2416',
     'warning-3': '#C9A96C',
+    'warning-4': '#DB9E38'
   },
   dark: {
     text: '#ECEDEE',
