@@ -1,7 +1,6 @@
-import Button from '@/components/ui/button';
-import TextCustom from '@/components/ui/text';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import Cta from '../components/cta';
 import { setPageContolValue } from '../store/page-control';
 import Checklists from './checklists';
 import IntroCard from './intro-card';
@@ -15,15 +14,11 @@ const Start = () => {
         <IntroCard />
         <Checklists />
       </View>
-      <View className="gap-4">
-        <Button
-          label={'Start verification'}
-          onPress={() => dispatch(setPageContolValue(1))}
-        />
-        <TextCustom className="text-center text-[10px]/[130%] text-custom-text-tertiary">
-          You can continue browsing markets without verification.
-        </TextCustom>
-      </View>
+      <Cta
+        label="Start verification"
+        footNote="You can continue browsing markets without verification."
+        onPress={() => dispatch(setPageContolValue(1))}
+      />
     </>
   );
 };

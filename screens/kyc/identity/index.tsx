@@ -1,4 +1,3 @@
-import Button from '@/components/ui/button';
 import TextCustom from '@/components/ui/text';
 import { RootState } from '@/redux/store';
 import { revalidateLogic, useField, useForm } from '@tanstack/react-form';
@@ -6,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import z from 'zod';
+import Cta from '../components/cta';
 import { setPageContolValue } from '../store/page-control';
 
 const formSchema = z.object({
@@ -261,10 +261,7 @@ const Identity = (props: {
           </TextCustom>
         </View>
       </ScrollView>
-      <View className="gap-4">
-        <Button label={'Continue'} onPress={form._handleSubmit} />
-        <TextCustom className="text-center text-[10px]/[130%] text-custom-text-tertiary" />
-      </View>
+      <Cta label={'Continue'} onPress={form._handleSubmit} />
     </>
   );
 };

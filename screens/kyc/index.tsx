@@ -5,13 +5,19 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useRef, useState } from 'react';
 import { KeyboardAvoidingView, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import Approved from './approved';
+import Attention from './attention';
 import ProgressIndicator from './components/progress-indicator';
 import Identity from './identity';
 import Documents from './identity/documents';
 import WorldCountries from './identity/world-countries';
 import Limits from './limits';
+import Review from './review';
+import Selfie from './selfie';
 import Start from './start';
 import { setPageContolValue } from './store/page-control';
+import Submission from './submission';
+import UploadDocs from './upload-docs';
 
 const HEADERS = [
   {
@@ -97,7 +103,7 @@ const KycScreen = () => {
         <KeyboardAvoidingView
           behavior={'padding'}
           // keyboardVerticalOffset={20}
-          className="_pb-6 flex-1"
+          className="flex-1"
         >
           <View className="android:pb-7 flex-1 pt-7">
             <ProgressIndicator />
@@ -107,6 +113,12 @@ const KycScreen = () => {
               {page === 2 && (
                 <Identity onHandleOpenBottomSheet={handleOpenSheet} />
               )}
+              {page === 3 && <UploadDocs />}
+              {page === 4 && <Selfie />}
+              {page === 5 && <Submission />}
+              {page === 6 && <Review />}
+              {page === 7 && <Approved />}
+              {page === 8 && <Attention />}
             </View>
           </View>
         </KeyboardAvoidingView>

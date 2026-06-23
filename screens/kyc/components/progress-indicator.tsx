@@ -16,22 +16,29 @@ const ProgressIndicator = () => {
   return (
     <View className="items-center">
       <View className="relative w-full max-w-[300px] flex-row items-center justify-between">
-        <View className="bg-secondary-2 absolute left-[12px] top-[13px] h-[2px] w-[90%] rounded-[1px]">
+        <View className="absolute left-[12px] top-[13px] h-[2px] w-[90%] rounded-[1px] bg-secondary-2">
           <View
             style={{
-              width: page < 3 ? '0%' : page === 3 ? '50%' : '100%',
+              width:
+                page < 3 || page >= 8
+                  ? '0%'
+                  : page < 5 && page >= 3
+                    ? '50%'
+                    : '100%',
             }}
             className="h-full bg-primary"
           ></View>
         </View>
-        {STAGES.map(stage => (
+        {STAGES.map((stage, i) => (
           <View key={stage.stage} className="items-center gap-[6px]">
             <View
               className={cn(
                 'flex size-8 items-center justify-center rounded-full bg-background-3',
                 page === 2 && stage.stage === 1 && 'bg-primary',
                 page === 3 && stage.stage <= 2 && 'bg-primary',
-                page >= 4 && stage.stage <= 3 && 'bg-primary',
+                page === 4 && stage.stage <= 2 && 'bg-primary',
+                page >= 5 && page < 8 && 'bg-primary',
+                page === 8 && stage.stage === 1 && 'bg-primary',
               )}
             >
               <TextCustom
@@ -39,7 +46,9 @@ const ProgressIndicator = () => {
                   'font-nm-bold text-sm/[130%] text-custom-text-tertiary',
                   page === 2 && stage.stage === 1 && 'text-custom-text-3',
                   page === 3 && stage.stage <= 2 && 'text-custom-text-3',
-                  page >= 4 && stage.stage <= 3 && 'text-custom-text-3',
+                  page === 4 && stage.stage <= 2 && 'text-custom-text-3',
+                  page >= 5 && page < 8 && 'text-custom-text-3',
+                  page === 8 && stage.stage === 1 && 'text-custom-text-3',
                 )}
               >
                 {stage.stage}

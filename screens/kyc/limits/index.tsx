@@ -1,7 +1,7 @@
-import Button from '@/components/ui/button';
 import TextCustom from '@/components/ui/text';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import Cta from '../components/cta';
 import { setPageContolValue } from '../store/page-control';
 import Steps from './steps';
 
@@ -19,13 +19,7 @@ const Limits = () => {
           </TextCustom>
         </View>
       </View>
-      <View className="gap-4">
-        <Button
-          label={'Continue'}
-          onPress={() => dispatch(setPageContolValue(2))}
-        />
-        <TextCustom className="text-center text-[10px]/[130%] text-custom-text-tertiary" />
-      </View>
+      <Cta label="Continue" onPress={() => dispatch(setPageContolValue(2))} />
     </>
   );
 };
