@@ -1,15 +1,14 @@
 import TextCustom from '@/components/ui/text';
 import CheckIcon from '@/screens/kyc/approved/assets/icons/check-icon.svg';
+import { useRouter } from 'expo-router';
 import { View } from 'react-native';
-import { useDispatch } from 'react-redux';
 import ChecklistItemCard from '../components/checklist-item-card';
 import CircleIndicator from '../components/circle-indicator';
 import Cta from '../components/cta';
-import { setPageContolValue } from '../store/page-control';
 
 const Approved = () => {
-  const dispatch = useDispatch();
-  
+  const router = useRouter();
+
   return (
     <>
       <View className="gap-16">
@@ -29,7 +28,7 @@ const Approved = () => {
       </View>
       <Cta
         label={'Start trading'}
-        onPress={() => dispatch(setPageContolValue(8))}
+        onPress={() => router.push('/home/trades')}
       />
     </>
   );

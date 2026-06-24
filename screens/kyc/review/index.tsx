@@ -1,13 +1,12 @@
 import TextCustom from '@/components/ui/text';
+import { useRouter } from 'expo-router';
 import { View } from 'react-native';
-import { useDispatch } from 'react-redux';
 import ChecklistItemCard from '../components/checklist-item-card';
 import CircleIndicator from '../components/circle-indicator';
 import Cta from '../components/cta';
-import { setPageContolValue } from '../store/page-control';
 
 const Review = () => {
-  const dispatch = useDispatch();
+  const router = useRouter();
 
   return (
     <>
@@ -33,10 +32,7 @@ const Review = () => {
           <ChecklistItemCard title="Sandbox deposit" status="$250 max" />
         </View>
       </View>
-      <Cta
-        label={'Back to home'}
-        onPress={() => dispatch(setPageContolValue(7))}
-      />
+      <Cta label={'Back to home'} onPress={() => router.push('/home')} />
     </>
   );
 };

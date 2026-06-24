@@ -116,3 +116,27 @@ export interface TwoFactorRecoverySettings {
 export interface TwoFactorRecoveryResponse {
   data: TwoFactorRecoverySettings;
 }
+
+export interface FileUploadData {
+  uploadId: string;
+  provider: 'cloudinary';
+  uploaded: boolean;
+  directUpload: boolean;
+  storageKey: string;
+  publicUrl: string;
+  publicId: string;
+  fileName: string;
+  contentType: string;
+  sizeBytes: number;
+}
+
+export interface FileUploadResponse {
+  data: FileUploadData;
+}
+
+export type PickedFile = {
+  name: string;
+  uri: string;
+  size?: number;
+  mimeType?: string;
+};

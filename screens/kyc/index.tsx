@@ -97,14 +97,10 @@ const KycScreen = () => {
       <RevampedWrapper
         header={HEADERS[page].title}
         description={HEADERS[page].description}
-        goBackTo={page < 1 ? '/home' : undefined}
-        onGoBackTo={page > 0 ? handleSwitchPages : undefined}
+        goBackTo={page < 1 && page < 6 ? '/home' : undefined}
+        onGoBackTo={page > 0 && page < 6 ? handleSwitchPages : undefined}
       >
-        <KeyboardAvoidingView
-          behavior={'padding'}
-          // keyboardVerticalOffset={20}
-          className="flex-1"
-        >
+        <KeyboardAvoidingView behavior={'padding'} className="flex-1">
           <View className="android:pb-7 flex-1 pt-7">
             <ProgressIndicator />
             <View className="flex-1 justify-between pt-7">

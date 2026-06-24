@@ -6,6 +6,7 @@ import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import z from 'zod';
 import Cta from '../components/cta';
+import { setKycDetailsControlValue } from '../store/kyc-details';
 import { setPageContolValue } from '../store/page-control';
 
 const formSchema = z.object({
@@ -27,13 +28,16 @@ const Identity = (props: {
   onHandleOpenBottomSheet: (sheet: 'country' | 'document') => void;
 }) => {
   const { onHandleOpenBottomSheet } = props;
+  const details = useSelector(
+    (state: RootState) => state.kycDetailsControl.value,
+  );
 
   const dispatch = useDispatch();
   const document = useSelector(
     (state: RootState) => state.documentControl.value,
   );
   const countryName = useSelector(
-    (state: RootState) => state.countryControl.value,
+    (state: RootState) => state.countryControl.value as string,
   );
   const firstNameInputRef = useRef<TextInput>(null);
   const lastNameInputRef = useRef<TextInput>(null);
@@ -54,7 +58,28 @@ const Identity = (props: {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      const legalName = [
+        value.firstName,
+        value.otherNames?.trim() ? value.otherNames.trim() : null,
+        value.lastName,
+      ]
+        .filter(Boolean)
+        .join(' ');
+
+      dispatch(
+        setKycDetailsControlValue({
+          country: value.country,
+          documentNumber: value.documentNumber,
+          documentType: value.documentType as
+            | 'national_id'
+            | 'passport'
+            | 'drivers_license'
+            | '',
+          legalName,
+          documentImageUrl: '',
+          selfieImageUrl: '',
+        }),
+      );
       dispatch(setPageContolValue(3));
     },
   });
@@ -208,7 +233,9 @@ const Identity = (props: {
                         ? 'Drivers License'
                         : field.state.value === 'passport'
                           ? 'Passport'
-                          : 'National ID'}
+                          : field.state.value === 'national_id'
+                            ? 'National ID'
+                            : ''}
                     </TextCustom>
                   </View>
                   {field.state.meta.errors.length > 0 && (

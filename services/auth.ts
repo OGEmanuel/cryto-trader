@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import * as SecureStore from 'expo-secure-store';
 import {
+  FileUploadResponse,
+  PickedFile,
   RegisterResponse,
   RegisterType,
   TwoFactorChallengeResponse,
@@ -117,6 +119,57 @@ export const auth = createApi({
         body: disable,
       }),
     }),
+    kycUploads: builder.mutation<
+      FileUploadResponse,
+      {
+        file: PickedFile;
+        documentKind: string;
+      }
+    >({
+      query: ({ file, documentKind }) => {
+        const formData = new FormData();
+
+        const getMimeType = (uri: string) => {
+          if (uri.endsWith('.pdf')) return 'application/pdf';
+          if (uri.endsWith('.png')) return 'image/png';
+          if (uri.endsWith('.jpg') || uri.endsWith('.jpeg'))
+            return 'image/jpeg';
+          return 'image/jpeg'; // safe default for KYC images
+        };
+
+        formData.append('file', {
+          uri: file.uri,
+          name: file.name,
+          type: getMimeType(file.uri),
+        } as any);
+
+        formData.append('documentKind', documentKind);
+
+        return {
+          url: 'kyc/uploads',
+          method: 'POST',
+          body: formData,
+        };
+      },
+    }),
+    kycSubmit: builder.mutation<
+      any,
+      {
+        legalName: string;
+        country: string;
+        documentType: string;
+        documentNumber: string;
+        selfieImageUrl: string;
+        documentImageUrl: string;
+        documentBackImageUrl: string;
+      }
+    >({
+      query: submit => ({
+        url: 'kyc',
+        method: 'POST',
+        body: submit,
+      }),
+    }),
   }),
 });
 
@@ -130,4 +183,6 @@ export const {
   useEnable2faMutation,
   useVerify2faMutation,
   useDisable2faMutation,
+  useKycUploadsMutation,
+  useKycSubmitMutation,
 } = auth;

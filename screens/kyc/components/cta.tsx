@@ -8,13 +8,23 @@ const Cta = (props: {
   onPress: () => void;
   className?: string;
   labelClassName?: string;
+  isLoading?: boolean;
 }) => {
-  const { label, footNote = '', onPress, className, labelClassName } = props;
+  const {
+    label,
+    footNote = '',
+    onPress,
+    className,
+    labelClassName,
+    isLoading,
+  } = props;
 
   return (
     <View className="gap-4">
       <Button
         label={label}
+        isPending={isLoading}
+        disabled={isLoading}
         onPress={onPress}
         className={className}
         labelClassName={labelClassName}
