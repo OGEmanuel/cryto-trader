@@ -14,7 +14,7 @@ const TAB_PAGES = [
   },
   {
     id: 3,
-    name: 'trades',
+    name: 'trades/index',
     title: 'Trades',
   },
   {

@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements';
 import { useLinkBuilder } from '@react-navigation/native';
-import { usePathname } from 'expo-router';
 import { View } from 'react-native';
 import ActivityIcon from '../assets/icons/activity';
 import HomeIcon from '../assets/icons/home';
@@ -22,7 +21,7 @@ export default function BottomTab({
   const icon = {
     index: (props: any) => <HomeIcon {...props} />,
     markets: (props: any) => <MarketIcon {...props} />,
-    trades: (props: any) => <TradesIcon {...props} />,
+    ['trades/index']: (props: any) => <TradesIcon {...props} />,
     activity: (props: any) => <ActivityIcon {...props} />,
     wallets: (props: any) => <WalletsIcon {...props} />,
   };

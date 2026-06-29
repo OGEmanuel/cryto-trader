@@ -1,13 +1,13 @@
 import { useGetCurrentProfileQuery } from '@/services/profile';
-import { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { setPageContolValue } from '../kyc/store/page-control';
 import Header from './components/header';
 import QuickActions from './quick-actions';
 import QuickLinks from './quick-links';
 import RecentCoin from './recent-coin';
 import TopCoins from './top-coins';
+import { setPageContolValue } from '../kyc/store/page-control';
+import { useEffect } from 'react';
 
 const HomeScreen = () => {
   const { data } = useGetCurrentProfileQuery({});

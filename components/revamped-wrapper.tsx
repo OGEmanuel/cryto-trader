@@ -57,7 +57,7 @@ const RevampedWrapper = (props: {
               {header}
             </TextCustom>
             {description && (
-              <TextCustom className="w-[20.375rem] text-xs/[130%] text-custom-text-tertiary">
+              <TextCustom className="w-[20.375rem] text-sm/[130%] text-custom-text-tertiary">
                 {description}
               </TextCustom>
             )}
