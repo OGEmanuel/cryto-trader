@@ -2,10 +2,10 @@ import RevampedWrapper from '@/components/revamped-wrapper';
 import { useAppForm } from '@/hooks/form';
 import { cn } from '@/lib/utils';
 import { revalidateLogic } from '@tanstack/react-form';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScrollView, View } from 'react-native';
 import z from 'zod';
-import ItemCard from '../components/item-card';
+import ItemCard from '../../components/item-card';
 import Tabs from './tabs';
 import TradeControlCard from './trade-control';
 
@@ -20,6 +20,7 @@ const formSchema = z.object({
 
 const TradesActionScreen = () => {
   const { action } = useLocalSearchParams<{ action: string }>();
+  const router = useRouter();
 
   const form = useAppForm({
     defaultValues: {
@@ -32,6 +33,7 @@ const TradesActionScreen = () => {
     },
     onSubmit: async ({ value }) => {
       console.log(value);
+      router.push('/home/trades/quote');
     },
   });
 

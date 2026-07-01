@@ -1,9 +1,8 @@
 import TextCustom from '@/components/ui/text';
-import CheckIcon from '@/screens/kyc/approved/assets/icons/check-icon.svg';
+import SuccessSymbol from '@/screens/home/components/success-symbol';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 import ChecklistItemCard from '../components/checklist-item-card';
-import CircleIndicator from '../components/circle-indicator';
 import Cta from '../components/cta';
 
 const Approved = () => {
@@ -13,9 +12,7 @@ const Approved = () => {
     <>
       <View className="gap-16">
         <View className="gap-6">
-          <CircleIndicator floatingCircleClassName="bg-primary-2">
-            <CheckIcon />
-          </CircleIndicator>
+          <SuccessSymbol />
           <TextCustom className="text-center font-nm-bold text-lg/[130%] text-custom-text-secondary">
             Level 2 unlocked
           </TextCustom>

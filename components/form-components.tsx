@@ -119,8 +119,8 @@ export const TextField = (props: TextFieldProps) => {
   );
 };
 
-const OTP_LENGTH = 6;
-export const OTPField = () => {
+export const OTPField = (props: { OTP_LENGTH?: number }) => {
+  const { OTP_LENGTH = 6 } = props;
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<TextInput>(null);
   const field = useFieldContext<string>();
