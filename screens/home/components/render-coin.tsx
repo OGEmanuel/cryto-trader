@@ -6,10 +6,10 @@ import { SvgUri } from 'react-native-svg';
 import NegativeGraphIcon from '../assets/icons/graph-negative.svg';
 import PositiveGraphIcon from '../assets/icons/graph-positive.svg';
 import { Asset } from '../constants/types';
+import { getIsPositive } from '../lib/utils';
 
 const RenderCoin = (props: { coinList: Asset }) => {
   const { coinList } = props;
-  const isPositive = !coinList.change24h?.toString().startsWith('-');
   const svgUri = `${process.env.EXPO_PUBLIC_API_URL}${coinList.iconUrl.slice(1)}`;
 
   return (
@@ -31,7 +31,9 @@ const RenderCoin = (props: { coinList: Asset }) => {
           <TextCustom
             className={cn(
               'font-nm-bold text-base/6',
-              isPositive ? 'text-primary' : 'text-destructive',
+              getIsPositive(coinList.change24h)
+                ? 'text-primary'
+                : 'text-destructive',
             )}
           >
             {coinList.priceUsd}
@@ -45,15 +47,21 @@ const RenderCoin = (props: { coinList: Asset }) => {
           <TextCustom
             className={cn(
               'text-xs/[100%]',
-              isPositive ? 'text-primary' : 'text-destructive',
+              getIsPositive(coinList.change24h)
+                ? 'text-primary'
+                : 'text-destructive',
             )}
           >
-            {isPositive ? '+' : null}
+            {getIsPositive(coinList.change24h) ? '+' : null}
             {coinList.change24h}
           </TextCustom>
         </View>
       </View>
-      {isPositive ? <PositiveGraphIcon /> : <NegativeGraphIcon />}
+      {getIsPositive(coinList.change24h) ? (
+        <PositiveGraphIcon />
+      ) : (
+        <NegativeGraphIcon />
+      )}
     </View>
   );
 };

@@ -170,6 +170,12 @@ export const auth = createApi({
         body: submit,
       }),
     }),
+    logout: builder.mutation<any, any>({
+      query: () => ({
+        url: 'logout',
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -185,4 +191,5 @@ export const {
   useDisable2faMutation,
   useKycUploadsMutation,
   useKycSubmitMutation,
+  useLogoutMutation,
 } = auth;

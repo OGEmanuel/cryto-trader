@@ -140,3 +140,25 @@ export type PickedFile = {
   size?: number;
   mimeType?: string;
 };
+
+export interface CandlestickDataPoint {
+  time: string;
+  openUsd: number;
+  highUsd: number;
+  lowUsd: number;
+  closeUsd: number;
+  volume: number;
+}
+
+export type ChartInterval = '1m' | '5m' | '15m' | '1h' | '1d';
+
+export interface CandlestickMeta {
+  count: number;
+  symbol: string;
+  interval: ChartInterval;
+}
+
+export interface CandlestickResponse {
+  data: CandlestickDataPoint[];
+  meta: CandlestickMeta;
+}

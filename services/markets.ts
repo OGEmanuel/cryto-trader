@@ -1,9 +1,10 @@
 import {
+  AssetDetailsResponse,
   AssetsResponse,
   TrendingAssetsResponse,
 } from '@/screens/home/constants/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { GetAssetsParams } from './constants/types';
+import { CandlestickResponse, GetAssetsParams } from './constants/types';
 
 export const markets = createApi({
   reducerPath: 'markets',
@@ -25,13 +26,26 @@ export const markets = createApi({
         return `assets?${params.toString()}`;
       },
     }),
-    getAssetsSymbol: builder.query({
-      query: symbol => `assets/${symbol}`,
+    getAssetsSymbol: builder.query<AssetDetailsResponse, { symbol: string }>({
+      query: symbol => `assets/${symbol.symbol}`,
     }),
     getTrending: builder.query<TrendingAssetsResponse, any>({
       query: () => 'trending',
     }),
     getPrices: builder.query({ query: () => 'prices' }),
+    getCandles: builder.query<
+      CandlestickResponse,
+      { symbol: string; interval?: string; limit?: string }
+    >({
+      query: ({ symbol, interval = '1m', limit = '50' }) => {
+        const params = new URLSearchParams();
+
+        if (interval) params.append('interval', interval);
+        if (limit) params.append('limit', String(limit));
+
+        return `assets/${symbol}/candles?${params.toString()}`;
+      },
+    }),
   }),
 });
 
@@ -40,4 +54,5 @@ export const {
   useGetAssetsSymbolQuery,
   useGetTrendingQuery,
   useGetPricesQuery,
+  useGetCandlesQuery,
 } = markets;

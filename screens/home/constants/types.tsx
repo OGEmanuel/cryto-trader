@@ -136,3 +136,31 @@ export interface UserProfile {
 export interface UserProfileResponse {
   data: UserProfile;
 }
+
+export interface AssetStats {
+  marketCapUsd: number;
+  volume24hUsd: number;
+  circulatingSupply: number;
+  maxSupply: number;
+  allTimeHighUsd: number;
+  high24hUsd: number;
+  low24hUsd: number;
+  volumeToMarketCapRatio: number;
+  about: string;
+  websiteUrl: string;
+  explorerUrl: string;
+}
+
+export interface AssetChartPoint {
+  time: string;
+  priceUsd: number;
+}
+
+export interface AssetDetails extends Asset {
+  stats: AssetStats;
+  chart: AssetChartPoint[];
+}
+
+export interface AssetDetailsResponse {
+  data: AssetDetails;
+}
