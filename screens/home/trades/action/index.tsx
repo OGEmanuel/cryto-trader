@@ -269,19 +269,6 @@ const TradesActionScreen = () => {
     handleClosePress();
   };
 
-  if (isError || isWalletError || isCoinError || isSwapCoinError)
-    return (
-      <ErrorState
-        message="Error fetching info"
-        refetch={() => (
-          refetch(),
-          refetchCoinData(),
-          refetchSwapCoin(),
-          refetchWallet()
-        )}
-      />
-    );
-
   return (
     <>
       <RevampedWrapper
@@ -289,243 +276,257 @@ const TradesActionScreen = () => {
         description={description}
         goBackTo={'/home/trades'}
       >
-        <View className="pt-[18px]">
-          <View className="gap-[1.875rem]">
-            <Tabs action={action} />
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              contentContainerClassName="gap-[4rem] pb-64"
-            >
-              <View className="relative gap-10">
-                <View className="gap-[1.375rem]">
-                  <TradeControlCard
-                    isLoading={
-                      isLoading ||
-                      isWalletLoading ||
-                      isCoinLoading ||
-                      isSwapCoinLoading
-                    }
-                    action={action}
-                    position={'top'}
-                    onOpenBottomSheet={() => (
-                      handleOpenPress(),
-                      setPosition('top')
-                    )}
-                    value={topCoinField.state.value}
-                  >
-                    <form.AppField name="top">
-                      {field => (
-                        <field.TextField
-                          shouldHideError
-                          inputProps={{
-                            placeholder: '0.00',
-                            keyboardType: 'decimal-pad', // iOS decimal keypad
-                            autoCapitalize: 'none',
-                            autoCorrect: false,
-                            autoComplete: 'off',
-                            textContentType: 'none',
-                            returnKeyType: 'done',
-                            className: `${cn(
-                              'h-10 w-64 max-w-64 font-nm-bold text-custom-text-secondary text-2xl/[130%] p-0',
-                              action !== 'swap' &&
-                                Number(field.state.value) >
-                                  (findCoinInWallet(topCoinField.state.value)
-                                    ?.available!! ?? 0) &&
-                                'text-destructive-2',
-                            )}`,
-                            onChangeText: text => {
-                              let sanitized = text
-                                .replace(/[^0-9.]/g, '')
-                                .replace(/(\..*)\./g, '$1');
-
-                              // Remove unnecessary leading zeros
-                              if (/^0\d/.test(sanitized)) {
-                                sanitized = sanitized.replace(/^0+/, '');
-                              }
-
-                              const num = parseFloat(sanitized);
-                              if (!isNaN(num) && coinData) {
-                                const price = coinData.data.priceUsd;
-                                const swapCalc =
-                                  (num * coinData?.data.priceUsd) /
-                                  swapCoinData?.data.priceUsd!!;
-                                const calculated =
-                                  action === 'buy'
-                                    ? num / price
-                                    : action === 'sell'
-                                      ? num * price
-                                      : swapCalc;
-                                bottomAmountField.setValue(
-                                  calculated.toFixed(4).toString(),
-                                );
-                              }
-
-                              field.handleChange(sanitized);
-                            },
-                          }}
-                        />
+        {isError ? (
+          <ErrorState
+            message="Error fetching info"
+            refetch={() => (
+              refetch(),
+              refetchCoinData(),
+              refetchSwapCoin(),
+              refetchWallet()
+            )}
+          />
+        ) : (
+          <View className="pt-[18px]">
+            <View className="gap-[1.875rem]">
+              <Tabs action={action} />
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerClassName="gap-[4rem] pb-64"
+              >
+                <View className="relative gap-10">
+                  <View className="gap-[1.375rem]">
+                    <TradeControlCard
+                      isLoading={
+                        isLoading ||
+                        isWalletLoading ||
+                        isCoinLoading ||
+                        isSwapCoinLoading
+                      }
+                      action={action}
+                      position={'top'}
+                      onOpenBottomSheet={() => (
+                        handleOpenPress(),
+                        setPosition('top')
                       )}
-                    </form.AppField>
-                  </TradeControlCard>
-                  {action === 'swap' && (
-                    <Pressable
-                      onPress={() => (
-                        topCoinField.setValue(swapHolder[1].coin),
-                        bottomCoinField.setValue(swapHolder[0].coin),
-                        setSwapHolder([
-                          {
-                            coin: topCoinField.state.value,
-                          },
-                          {
-                            coin: bottomCoinField.state.value,
-                          },
-                        ])
-                      )}
-                      className="bg-tertiary-2 absolute top-[40%] z-10 size-[3.5rem] flex-row items-center justify-center self-center rounded-full active:opacity-75"
+                      value={topCoinField.state.value}
                     >
-                      <ArrowIcon />
-                      <ArrowUpIcon />
-                    </Pressable>
-                  )}
-                  <TradeControlCard
-                    isLoading={
-                      isLoading ||
-                      isWalletLoading ||
-                      isCoinLoading ||
-                      isSwapCoinLoading
-                    }
-                    action={action}
-                    position={'bottom'}
-                    onOpenBottomSheet={() => (
-                      handleOpenPress(),
-                      setPosition('bottom')
-                    )}
-                    value={bottomCoinField.state.value}
-                  >
-                    <form.AppField name="bottom">
-                      {field => (
-                        <field.TextField
-                          shouldHideError
-                          inputProps={{
-                            placeholder: '0.00',
-                            keyboardType: 'decimal-pad', // iOS decimal keypad
-                            autoCapitalize: 'none',
-                            autoCorrect: false,
-                            autoComplete: 'off',
-                            textContentType: 'none',
-                            returnKeyType: 'done',
-                            className:
-                              'h-10 w-64 max-w-64 font-nm-bold text-custom-text-secondary text-2xl/[130%] p-0',
-                            onChangeText: text => {
-                              let sanitized = text
-                                .replace(/[^0-9.]/g, '')
-                                .replace(/(\..*)\./g, '$1');
+                      <form.AppField name="top">
+                        {field => (
+                          <field.TextField
+                            shouldHideError
+                            inputProps={{
+                              placeholder: '0.00',
+                              keyboardType: 'decimal-pad', // iOS decimal keypad
+                              autoCapitalize: 'none',
+                              autoCorrect: false,
+                              autoComplete: 'off',
+                              textContentType: 'none',
+                              returnKeyType: 'done',
+                              className: `${cn(
+                                'h-10 w-64 max-w-64 font-nm-bold text-custom-text-secondary text-2xl/[130%] p-0',
+                                action !== 'swap' &&
+                                  Number(field.state.value) >
+                                    (findCoinInWallet(topCoinField.state.value)
+                                      ?.available!! ?? 0) &&
+                                  'text-destructive-2',
+                              )}`,
+                              onChangeText: text => {
+                                let sanitized = text
+                                  .replace(/[^0-9.]/g, '')
+                                  .replace(/(\..*)\./g, '$1');
 
-                              // Remove unnecessary leading zeros
-                              if (/^0\d/.test(sanitized)) {
-                                sanitized = sanitized.replace(/^0+/, '');
-                              }
+                                // Remove unnecessary leading zeros
+                                if (/^0\d/.test(sanitized)) {
+                                  sanitized = sanitized.replace(/^0+/, '');
+                                }
 
-                              const num = parseFloat(sanitized);
-                              if (!isNaN(num) && coinData) {
-                                const price = coinData.data.priceUsd;
-                                const calculated =
-                                  action === 'buy'
-                                    ? num * price
-                                    : action === 'sell'
+                                const num = parseFloat(sanitized);
+                                if (!isNaN(num) && coinData) {
+                                  const price = coinData.data.priceUsd;
+                                  const swapCalc =
+                                    (num * coinData?.data.priceUsd) /
+                                    swapCoinData?.data.priceUsd!!;
+                                  const calculated =
+                                    action === 'buy'
                                       ? num / price
-                                      : num;
-                                topAmountField.setValue(
-                                  calculated.toFixed(2).toString(),
-                                );
-                              }
+                                      : action === 'sell'
+                                        ? num * price
+                                        : swapCalc;
+                                  bottomAmountField.setValue(
+                                    calculated.toFixed(4).toString(),
+                                  );
+                                }
 
-                              field.handleChange(sanitized);
+                                field.handleChange(sanitized);
+                              },
+                            }}
+                          />
+                        )}
+                      </form.AppField>
+                    </TradeControlCard>
+                    {action === 'swap' && (
+                      <Pressable
+                        onPress={() => (
+                          topCoinField.setValue(swapHolder[1].coin),
+                          bottomCoinField.setValue(swapHolder[0].coin),
+                          setSwapHolder([
+                            {
+                              coin: topCoinField.state.value,
                             },
-                          }}
-                        />
+                            {
+                              coin: bottomCoinField.state.value,
+                            },
+                          ])
+                        )}
+                        className="bg-tertiary-2 absolute top-[40%] z-10 size-[3.5rem] flex-row items-center justify-center self-center rounded-full active:opacity-75"
+                      >
+                        <ArrowIcon />
+                        <ArrowUpIcon />
+                      </Pressable>
+                    )}
+                    <TradeControlCard
+                      isLoading={
+                        isLoading ||
+                        isWalletLoading ||
+                        isCoinLoading ||
+                        isSwapCoinLoading
+                      }
+                      action={action}
+                      position={'bottom'}
+                      onOpenBottomSheet={() => (
+                        handleOpenPress(),
+                        setPosition('bottom')
                       )}
-                    </form.AppField>
-                  </TradeControlCard>
+                      value={bottomCoinField.state.value}
+                    >
+                      <form.AppField name="bottom">
+                        {field => (
+                          <field.TextField
+                            shouldHideError
+                            inputProps={{
+                              placeholder: '0.00',
+                              keyboardType: 'decimal-pad', // iOS decimal keypad
+                              autoCapitalize: 'none',
+                              autoCorrect: false,
+                              autoComplete: 'off',
+                              textContentType: 'none',
+                              returnKeyType: 'done',
+                              className:
+                                'h-10 w-64 max-w-64 font-nm-bold text-custom-text-secondary text-2xl/[130%] p-0',
+                              onChangeText: text => {
+                                let sanitized = text
+                                  .replace(/[^0-9.]/g, '')
+                                  .replace(/(\..*)\./g, '$1');
+
+                                // Remove unnecessary leading zeros
+                                if (/^0\d/.test(sanitized)) {
+                                  sanitized = sanitized.replace(/^0+/, '');
+                                }
+
+                                const num = parseFloat(sanitized);
+                                if (!isNaN(num) && coinData) {
+                                  const price = coinData.data.priceUsd;
+                                  const calculated =
+                                    action === 'buy'
+                                      ? num * price
+                                      : action === 'sell'
+                                        ? num / price
+                                        : num;
+                                  topAmountField.setValue(
+                                    calculated.toFixed(2).toString(),
+                                  );
+                                }
+
+                                field.handleChange(sanitized);
+                              },
+                            }}
+                          />
+                        )}
+                      </form.AppField>
+                    </TradeControlCard>
+                  </View>
+                  <View className="gap-3">
+                    <ItemCard
+                      isLoading={
+                        isLoading ||
+                        isWalletLoading ||
+                        isCoinLoading ||
+                        isSwapCoinLoading
+                      }
+                      name={action === 'swap' ? 'Route' : 'Available'}
+                      value={
+                        action === 'buy'
+                          ? `${findCoinInWallet(topCoinField.state.value)?.available} USDT`
+                          : action === 'sell'
+                            ? `${findCoinInWallet(topCoinField.state.value)?.available ?? 0} ${topCoinField.state.value}`
+                            : topCoinField.state.value !== 'USDT' &&
+                                bottomCoinField.state.value !== 'USDT'
+                              ? `${topCoinField.state.value} → USDT → ${bottomCoinField.state.value}`
+                              : `${topCoinField.state.value} → ${bottomCoinField.state.value}`
+                      }
+                    />
+                    <ItemCard
+                      isLoading={
+                        isLoading ||
+                        isWalletLoading ||
+                        isCoinLoading ||
+                        isSwapCoinLoading
+                      }
+                      name={
+                        action === 'buy' ? 'Estimated rate' : 'Fee estimate'
+                      }
+                      value={
+                        action === 'buy'
+                          ? `1 ${bottomCoinField.state.value} = ${coinData?.data.priceUsd.toLocaleString()} USDT`
+                          : action === 'sell'
+                            ? '15.50 USDT'
+                            : '$4.84'
+                      }
+                    />
+                    <ItemCard
+                      isLoading={
+                        isLoading ||
+                        isWalletLoading ||
+                        isCoinLoading ||
+                        isSwapCoinLoading
+                      }
+                      name={
+                        action === 'buy'
+                          ? 'Verification limit'
+                          : action === 'sell'
+                            ? 'Receive after fees'
+                            : 'Quote expires'
+                      }
+                      value={
+                        action === 'buy'
+                          ? `$${walletData?.data.verification.limits.tradePerTransactionUsd.toLocaleString()}`
+                          : action === 'sell'
+                            ? '1,540.80 USDT'
+                            : '30 seconds'
+                      }
+                      className={cn(action === 'buy' && 'text-primary-2')}
+                    />
+                  </View>
                 </View>
-                <View className="gap-3">
-                  <ItemCard
-                    isLoading={
+                <form.AppForm>
+                  <form.SubscribeButton
+                    onPress={form._handleSubmit}
+                    isPending={isCreating}
+                    disabled={
                       isLoading ||
                       isWalletLoading ||
                       isCoinLoading ||
                       isSwapCoinLoading
                     }
-                    name={action === 'swap' ? 'Route' : 'Available'}
-                    value={
-                      action === 'buy'
-                        ? `${findCoinInWallet(topCoinField.state.value)?.available} USDT`
-                        : action === 'sell'
-                          ? `${findCoinInWallet(topCoinField.state.value)?.available ?? 0} ${topCoinField.state.value}`
-                          : topCoinField.state.value !== 'USDT' &&
-                              bottomCoinField.state.value !== 'USDT'
-                            ? `${topCoinField.state.value} → USDT → ${bottomCoinField.state.value}`
-                            : `${topCoinField.state.value} → ${bottomCoinField.state.value}`
-                    }
+                    className={cn(action === 'sell' && 'bg-destructive-2')}
+                    label={action === 'swap' ? 'Preview swap' : 'Get quote'}
                   />
-                  <ItemCard
-                    isLoading={
-                      isLoading ||
-                      isWalletLoading ||
-                      isCoinLoading ||
-                      isSwapCoinLoading
-                    }
-                    name={action === 'buy' ? 'Estimated rate' : 'Fee estimate'}
-                    value={
-                      action === 'buy'
-                        ? `1 ${bottomCoinField.state.value} = ${coinData?.data.priceUsd.toLocaleString()} USDT`
-                        : action === 'sell'
-                          ? '15.50 USDT'
-                          : '$4.84'
-                    }
-                  />
-                  <ItemCard
-                    isLoading={
-                      isLoading ||
-                      isWalletLoading ||
-                      isCoinLoading ||
-                      isSwapCoinLoading
-                    }
-                    name={
-                      action === 'buy'
-                        ? 'Verification limit'
-                        : action === 'sell'
-                          ? 'Receive after fees'
-                          : 'Quote expires'
-                    }
-                    value={
-                      action === 'buy'
-                        ? `$${walletData?.data.verification.limits.tradePerTransactionUsd.toLocaleString()}`
-                        : action === 'sell'
-                          ? '1,540.80 USDT'
-                          : '30 seconds'
-                    }
-                    className={cn(action === 'buy' && 'text-primary-2')}
-                  />
-                </View>
-              </View>
-              <form.AppForm>
-                <form.SubscribeButton
-                  onPress={form._handleSubmit}
-                  isPending={isCreating}
-                  disabled={
-                    isLoading ||
-                    isWalletLoading ||
-                    isCoinLoading ||
-                    isSwapCoinLoading
-                  }
-                  className={cn(action === 'sell' && 'bg-destructive-2')}
-                  label={action === 'swap' ? 'Preview swap' : 'Get quote'}
-                />
-              </form.AppForm>
-            </ScrollView>
+                </form.AppForm>
+              </ScrollView>
+            </View>
           </View>
-        </View>
+        )}
       </RevampedWrapper>
       <BottomSheet
         snapPoints={['70%']}
