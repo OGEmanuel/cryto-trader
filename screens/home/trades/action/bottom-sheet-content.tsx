@@ -38,7 +38,7 @@ const BottomSheetContent = (props: {
 
     return (
       <Pressable
-        onPress={() => onSelectCoin(asset.symbol)}
+        onPress={() => (onSelectCoin(asset.symbol), setQuery(''))}
         className="flex-row items-center justify-between rounded-2xl bg-secondary p-4 active:opacity-75"
       >
         <View className="size-6 rounded-full bg-transparent">

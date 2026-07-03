@@ -166,12 +166,6 @@ const TradesActionScreen = () => {
     symbol: bottomCoinField.state.value,
   });
 
-  const calcSwapAmount = (topAmount: number) => {
-    const dollarEquivalent = topAmount * coinData?.data.priceUsd!!;
-
-    return dollarEquivalent / swapCoinData?.data.priceUsd!!;
-  };
-
   useEffect(() => {
     if (action === 'buy') {
       topCoinField.setValue('USDT');
@@ -196,7 +190,10 @@ const TradesActionScreen = () => {
       } else {
         topAmountField.setValue('1');
         bottomAmountField.setValue(
-          calcSwapAmount(Number(topAmountField.state.value))
+          (
+            (Number(topAmountField.state.value) * coinData?.data.priceUsd!!) /
+            swapCoinData?.data.priceUsd!!
+          )
             .toFixed(4)
             .toString(),
         );
@@ -210,7 +207,7 @@ const TradesActionScreen = () => {
         ]);
       }
     }
-  }, [coinData?.data.priceUsd, action]);
+  }, [coinData?.data.priceUsd, action, swapCoinData?.data.priceUsd]);
 
   const handleSelectCoin = (value: string, position: 'top' | 'bottom') => {
     if (position === 'top') {
