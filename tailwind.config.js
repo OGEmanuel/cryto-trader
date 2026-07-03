@@ -20,6 +20,7 @@ module.exports = {
         secondary: '#777777',
         'secondary-2': '#29333D',
         tertiary: '#252E35',
+        'tertiary-2': '#222830',
         'custom-tertiary': '#23362F',
         foreground: '#171D22',
         'custom-text': '#C1C7CD',

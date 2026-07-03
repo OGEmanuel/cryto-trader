@@ -162,3 +162,53 @@ export interface CandlestickResponse {
   data: CandlestickDataPoint[];
   meta: CandlestickMeta;
 }
+
+export interface DepositAddress {
+  assetSymbol: string;
+  network: string;
+  address: string;
+  qrPayload: string;
+}
+
+export interface WalletBalance {
+  assetSymbol: string;
+  available: number;
+  locked: number;
+}
+
+export interface Wallet {
+  id: string;
+  userId: string;
+  fiatCurrency: string;
+  depositAddresses: DepositAddress[];
+  balances: WalletBalance[];
+}
+
+export interface VerificationLimits {
+  depositPerTransactionUsd: number;
+  tradePerTransactionUsd: number;
+  withdrawalPerTransactionUsd: number;
+  dailyWithdrawalUsd: number;
+}
+
+export interface Verification {
+  status: 'approved' | 'pending' | 'rejected';
+  tier: string;
+  level: number;
+  label: string;
+  limits: VerificationLimits;
+  canTrade: boolean;
+  canWithdraw: boolean;
+  canUseSandboxDeposits: boolean;
+}
+export interface WalletOverview {
+  wallet: Wallet;
+  portfolioValueUsd: number;
+  portfolioValue: number;
+  portfolioCurrency: string;
+  verification: Verification;
+}
+
+export interface WalletOverviewResponse {
+  data: WalletOverview;
+}

@@ -65,11 +65,18 @@ type TextFieldProps = {
   onPress?: () => void;
   onPasswordViewToggle?: () => void;
   buttonLabel?: string;
+  shouldHideError?: boolean;
 };
 
 export const TextField = (props: TextFieldProps) => {
-  const { inputProps, inputLabel, onPress, buttonLabel, onPasswordViewToggle } =
-    props;
+  const {
+    inputProps,
+    inputLabel,
+    onPress,
+    buttonLabel,
+    onPasswordViewToggle,
+    shouldHideError,
+  } = props;
   const field = useFieldContext<string>();
   const errors = useStore(field.store, state => state.meta.errors);
 
@@ -100,7 +107,7 @@ export const TextField = (props: TextFieldProps) => {
             )}
             value={field.state.value}
             onBlur={field.handleBlur}
-            onChangeText={field.handleChange}
+            onChangeText={inputProps?.onChangeText ?? field.handleChange}
             placeholderTextColor={Colors.light.secondary}
             {...inputProps}
           />
@@ -113,7 +120,9 @@ export const TextField = (props: TextFieldProps) => {
             </Pressable>
           )}
         </View>
-        {field.state.meta.isTouched && <ErrorMessages errors={errors} />}
+        {field.state.meta.isTouched && !shouldHideError && (
+          <ErrorMessages errors={errors} />
+        )}
       </View>
     </View>
   );

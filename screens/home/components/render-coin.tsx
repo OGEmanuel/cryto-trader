@@ -6,11 +6,10 @@ import { SvgUri } from 'react-native-svg';
 import NegativeGraphIcon from '../assets/icons/graph-negative.svg';
 import PositiveGraphIcon from '../assets/icons/graph-positive.svg';
 import { Asset } from '../constants/types';
-import { getIsPositive } from '../lib/utils';
+import { getIsPositive, getSvgUri } from '../lib/utils';
 
 const RenderCoin = (props: { coinList: Asset }) => {
   const { coinList } = props;
-  const svgUri = `${process.env.EXPO_PUBLIC_API_URL}${coinList.iconUrl.slice(1)}`;
 
   return (
     <View
@@ -38,7 +37,7 @@ const RenderCoin = (props: { coinList: Asset }) => {
           >
             {coinList.priceUsd}
           </TextCustom>
-          <SvgUri width={24} height={24} uri={svgUri} />
+          <SvgUri width={24} height={24} uri={getSvgUri(coinList.iconUrl)} />
         </View>
         <View className="flex-row items-center gap-1">
           <TextCustom className="text-sm/[100%] text-background">

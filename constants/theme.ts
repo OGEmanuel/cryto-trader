@@ -31,6 +31,7 @@ export const Colors = {
     secondary: '#777777',
     'secondary-2': '#29333D',
     tertiary: '#252E35',
+    'tertiary-2': '#222830',
     foreground: '#171D22',
     extra: '#E3E8ED',
     'custom-extra': '#F1F6F8',

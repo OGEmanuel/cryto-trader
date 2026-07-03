@@ -9,12 +9,14 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { auth } from '../services/auth';
 import { markets } from '../services/markets';
 import { profile } from '../services/profile';
+import { wallet } from '../services/wallet';
 
 export const store = configureStore({
   reducer: {
     [auth.reducerPath]: auth.reducer,
     [markets.reducerPath]: markets.reducer,
     [profile.reducerPath]: profile.reducer,
+    [wallet.reducerPath]: wallet.reducer,
     recovery: recoveryReducer,
     challengeId: challengeIDReducer,
     pageControl: pageControlReducer,
@@ -27,6 +29,7 @@ export const store = configureStore({
       auth.middleware,
       markets.middleware,
       profile.middleware,
+      wallet.middleware,
     ),
 });
 
