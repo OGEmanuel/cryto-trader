@@ -3,6 +3,7 @@ import { Colors } from '@/constants/theme';
 import { useAppForm } from '@/hooks/form';
 import { cn } from '@/lib/utils';
 import { useGetAssetsQuery, useGetAssetsSymbolQuery } from '@/services/markets';
+import { useCreateTradeMutation } from '@/services/trade';
 import { useGetWalletQuery } from '@/services/wallet';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { revalidateLogic, useField } from '@tanstack/react-form';
@@ -43,6 +44,8 @@ const TradesActionScreen = () => {
       coin: '',
     },
   ]);
+  const [create, { isLoading: isCreating }] = useCreateTradeMutation();
+
   const bottomSheetRef = useRef<BottomSheet>(null);
   const handleOpenPress = () => bottomSheetRef.current?.expand();
   const handleClosePress = () => bottomSheetRef.current?.close();
@@ -64,6 +67,30 @@ const TradesActionScreen = () => {
     );
   };
 
+  const handleCreate = async (values: {
+    type: string;
+    fromAsset: string;
+    toAsset: string;
+    fromAmount: number;
+  }) => {
+    try {
+      const response = await create(values).unwrap();
+
+      router.push({
+        pathname: '/home/trades/quote',
+        params: { id: response.data.id },
+      });
+    } catch (err: any) {
+      const message = err?.data?.error.message || 'Something went wrong';
+
+      Toast.show({
+        type: 'error',
+        text1: `Failed to ${action}`,
+        text2: message,
+      });
+    }
+  };
+
   const form = useAppForm({
     defaultValues: {
       top: action === 'buy' ? '' : '1',
@@ -83,21 +110,40 @@ const TradesActionScreen = () => {
       });
     },
     onSubmit: async ({ value }) => {
-      if (Number(value.top) < 1) {
-        Toast.show({
-          type: 'error',
-          text1: 'Invalid entry',
-          text2: 'Amount must be greater than 0',
-        });
-        return;
-      }
-      if (Number(value.bottom) < 1) {
-        Toast.show({
-          type: 'error',
-          text1: 'Invalid entry',
-          text2: 'Amount must be greater than 0',
-        });
-        return;
+      if (action === 'buy') {
+        if (Number(value.top) < 1) {
+          Toast.show({
+            type: 'error',
+            text1: 'Invalid entry',
+            text2: 'Amount must be greater than 0',
+          });
+          return;
+        }
+        if (Number(value.bottom) < 0.0005) {
+          Toast.show({
+            type: 'error',
+            text1: 'Invalid entry',
+            text2: 'Amount must be at least 0.0005',
+          });
+          return;
+        }
+      } else if (action === 'sell') {
+        if (Number(value.top) < 0.0005) {
+          Toast.show({
+            type: 'error',
+            text1: 'Invalid entry',
+            text2: 'Amount must be at least 0.0005',
+          });
+          return;
+        }
+        if (Number(value.bottom) < 1) {
+          Toast.show({
+            type: 'error',
+            text1: 'Invalid entry',
+            text2: 'Amount must be greater than 0',
+          });
+          return;
+        }
       }
       if (
         Number(value.top) > (findCoinInWallet(value.topCoin)?.available!! ?? 0)
@@ -109,7 +155,12 @@ const TradesActionScreen = () => {
         return;
       }
 
-      router.push('/home/trades/quote');
+      handleCreate({
+        fromAmount: Number(value.top),
+        fromAsset: value.topCoin,
+        toAsset: value.bottomCoin,
+        type: action,
+      });
     },
   });
 
@@ -461,7 +512,7 @@ const TradesActionScreen = () => {
               <form.AppForm>
                 <form.SubscribeButton
                   onPress={form._handleSubmit}
-                  isPending={false}
+                  isPending={isCreating}
                   disabled={
                     isLoading ||
                     isWalletLoading ||

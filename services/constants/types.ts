@@ -212,3 +212,80 @@ export interface WalletOverview {
 export interface WalletOverviewResponse {
   data: WalletOverview;
 }
+
+export interface SwapQuote {
+  id: string;
+  type: 'swap';
+  fromAsset: string;
+  toAsset: string;
+  fromAmount: number;
+  toAmount: number;
+  rate: number;
+  feeAmount: number;
+  expiresAt: string;
+  expiresInSeconds: number;
+  isExpired: boolean;
+}
+
+export interface SwapQuoteResponse {
+  data: SwapQuote;
+}
+
+export type QuoteType = 'swap' | 'buy' | 'sell';
+
+export interface Quote {
+  id: string;
+  type: QuoteType;
+  fromAsset: string;
+  toAsset: string;
+  fromAmount: number;
+  toAmount: number;
+  rate: number;
+  feeAmount: number;
+  expiresAt: string;
+  expiresInSeconds: number;
+  isExpired: boolean;
+}
+
+export interface QuoteResponse {
+  data: Quote;
+}
+
+export type TransactionType =
+  | 'swap'
+  | 'buy'
+  | 'sell'
+  | 'deposit'
+  | 'withdrawal';
+
+export type TransactionStatus =
+  | 'pending'
+  | 'completed'
+  | 'failed'
+  | 'cancelled';
+
+export interface Transaction {
+  id: string;
+  userId: string;
+  type: TransactionType;
+  status: TransactionStatus;
+  fromAsset: string;
+  toAsset: string;
+  fromAmount: number;
+  toAmount: number;
+  feeAmount: number;
+  rate: number;
+  reference: string;
+  note: string;
+  createdAt: string;
+  completedAt: string | null;
+}
+
+export interface ExecuteQuoteData {
+  transaction: Transaction;
+  wallet: Wallet;
+}
+
+export interface ExecuteQuoteResponse {
+  data: ExecuteQuoteData;
+}

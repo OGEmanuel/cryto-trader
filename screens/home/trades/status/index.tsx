@@ -1,9 +1,15 @@
 import RevampedWrapper from '@/components/revamped-wrapper';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 import Failed from './failed';
 import Success from './success';
 
 const StatusScreen = () => {
-  const isFailed = true;
+  const details = useSelector(
+    (state: RootState) => state.transactionControl.value,
+  );
+
+  const isFailed = details.data.transaction.status !== 'completed';
 
   return (
     <RevampedWrapper

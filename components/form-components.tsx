@@ -128,8 +128,11 @@ export const TextField = (props: TextFieldProps) => {
   );
 };
 
-export const OTPField = (props: { OTP_LENGTH?: number }) => {
-  const { OTP_LENGTH = 6 } = props;
+export const OTPField = (props: {
+  OTP_LENGTH?: number;
+  shouldHideError: boolean;
+}) => {
+  const { OTP_LENGTH = 6, shouldHideError } = props;
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<TextInput>(null);
   const field = useFieldContext<string>();
@@ -182,7 +185,9 @@ export const OTPField = (props: { OTP_LENGTH?: number }) => {
           })}
         </View>
       </Pressable>
-      {field.state.meta.isTouched && <ErrorMessages errors={errors} />}
+      {field.state.meta.isTouched && !shouldHideError && (
+        <ErrorMessages errors={errors} />
+      )}
     </View>
   );
 };

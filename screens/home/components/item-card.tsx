@@ -7,11 +7,11 @@ const ItemCard = (props: {
   name: string;
   value: string;
   className?: string;
-  isLoading: boolean;
+  isLoading?: boolean;
 }) => {
   const { name, value, className, isLoading } = props;
   return (
-    <Skeleton.Group show={isLoading}>
+    <Skeleton.Group show={isLoading ?? false}>
       <View className="flex-row items-center justify-between rounded-xl bg-background-tertiary px-[1.125rem] py-7">
         <Skeleton width={80} height={14}>
           <TextCustom className="text-sm/[130%] text-custom-text-tertiary">

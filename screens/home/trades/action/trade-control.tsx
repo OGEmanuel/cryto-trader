@@ -49,7 +49,7 @@ const TradeControlCard = (props: {
         <Skeleton width={82} height={34} radius={16}>
           <Pressable
             onPress={onOpenBottomSheet}
-            className="h-[2.125rem] w-[5.125rem] flex-row items-center justify-between gap-2 rounded-2xl bg-background-3 p-2 active:opacity-75"
+            className="h-[2.125rem] w-[5.125rem] flex-row items-center justify-between gap-2 rounded-2xl bg-custom-text-tertiary p-2 active:opacity-75"
             disabled={
               action === 'buy' && position === 'top'
                 ? true
@@ -73,7 +73,7 @@ const TradeControlCard = (props: {
                 />
               )}
             </View>
-            <TextCustom className="font-nm-medium text-sm/[130%] text-custom-text-secondary">
+            <TextCustom className="text-tertiary-2 font-nm-medium text-sm/[130%]">
               {value}
             </TextCustom>
           </Pressable>

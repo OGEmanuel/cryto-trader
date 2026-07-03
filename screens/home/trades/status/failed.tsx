@@ -1,13 +1,24 @@
 import Button from '@/components/ui/button';
 import TextCustom from '@/components/ui/text';
+import { RootState } from '@/redux/store';
 import FailedIcon from '@/screens/home/trades/assets/icons/failed-icon.svg';
 import CircleIndicator from '@/screens/kyc/components/circle-indicator';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
+import { useSelector } from 'react-redux';
 import ItemCard from '../../components/item-card';
 
 const Failed = () => {
   const router = useRouter();
+  const details = useSelector(
+    (state: RootState) => state.transactionControl.value,
+  );
+
+  const findCoinInWallet = (symbol: string) => {
+    return details.data.wallet.balances.find(
+      (item: any) => item.assetSymbol === symbol,
+    );
+  };
 
   return (
     <View className="pt-10">
@@ -26,23 +37,30 @@ const Failed = () => {
           </View>
           <View className="gap-16">
             <View className="gap-3">
-              <ItemCard name="Required" value="250.00 USDT" />
+              <ItemCard
+                name="Required"
+                value={`${details.data.transaction.toAmount.toFixed(4)} ${details.data.transaction.toAsset}`}
+              />
               <ItemCard
                 name="Available"
-                value="124.00 USDT"
+                value={`  ${findCoinInWallet(details.data.transaction.fromAsset)?.available} ${
+                  details.data.transaction.fromAsset
+                }`}
                 className="text-destructive-2"
               />
               <ItemCard
                 name="Status"
-                value="Failed"
-                className="text-destructive-2"
+                value={details.data.transaction.status}
+                className="capitalize text-destructive-2"
               />
             </View>
             <Button
               label="Edit amount"
               className="bg-destructive-2"
               labelClassName="text-custom-text-secondary"
-              onPress={() => router.replace('/home/trades/buy')}
+              onPress={() =>
+                router.replace(`/home/trades/${details.data.transaction.type}`)
+              }
             />
           </View>
         </View>
