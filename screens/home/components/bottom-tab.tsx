@@ -20,7 +20,7 @@ export default function BottomTab({
 
   const icon = {
     index: (props: any) => <HomeIcon {...props} />,
-    markets: (props: any) => <MarketIcon {...props} />,
+    ['markets/index']: (props: any) => <MarketIcon {...props} />,
     ['trades/index']: (props: any) => <TradesIcon {...props} />,
     activity: (props: any) => <ActivityIcon {...props} />,
     wallets: (props: any) => <WalletsIcon {...props} />,

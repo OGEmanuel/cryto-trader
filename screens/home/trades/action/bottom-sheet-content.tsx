@@ -59,7 +59,7 @@ const BottomSheetContent = (props: {
   };
 
   return (
-    <View className="_pb-40 gap-6">
+    <View className="gap-6">
       <TextInput
         placeholder="Search"
         className="ios:py-4 w-full rounded-lg bg-background px-4 text-custom-text"

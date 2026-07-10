@@ -9,7 +9,7 @@ const TAB_PAGES = [
   },
   {
     id: 2,
-    name: 'markets',
+    name: 'markets/index',
     title: 'Markets',
   },
   {

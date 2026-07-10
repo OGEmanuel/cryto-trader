@@ -2,8 +2,9 @@ import TextCustom from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { useGetAssetsQuery, useGetTrendingQuery } from '@/services/markets';
 import { useGetWatchlistQuery } from '@/services/profile';
+import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { FlatList, Platform, View } from 'react-native';
+import { FlatList, Platform, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from '../constants/types';
@@ -55,9 +56,13 @@ const AssetsList = (props: {
     const { coinList } = props;
     const isPositive = !coinList.change24h?.toString().startsWith('-');
     const svgUri = `${process.env.EXPO_PUBLIC_API_URL}${coinList.iconUrl.slice(1)}`;
+    const router = useRouter();
 
     return (
-      <View className="flex-row items-center justify-between rounded-2xl bg-background-tertiary p-4">
+      <Pressable
+        onPress={() => router.push(`/home/markets/${coinList.symbol}`)}
+        className="flex-row items-center justify-between rounded-2xl bg-background-tertiary p-4 active:opacity-75"
+      >
         <View className="flex-row items-center gap-8">
           <View className="w-28 flex-row items-center gap-[10px]">
             <View className="size-9 rounded-full">
@@ -88,7 +93,7 @@ const AssetsList = (props: {
             {coinList.change24h}%
           </TextCustom>
         </View>
-      </View>
+      </Pressable>
     );
   };
 
