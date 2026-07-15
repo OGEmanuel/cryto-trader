@@ -1,11 +1,18 @@
 import RevampedWrapper from '@/components/revamped-wrapper';
 import Button from '@/components/ui/button';
 import TextCustom from '@/components/ui/text';
+import { useRouter } from 'expo-router';
 import { Pressable, View } from 'react-native';
 
 const CoinDetailsScreen = () => {
+  const router = useRouter();
+
   return (
-    <RevampedWrapper header={'Bitcoin'} description={'BTC · Bitcoin network'}>
+    <RevampedWrapper
+      header={'Bitcoin'}
+      description={'BTC · Bitcoin network'}
+      onGoBackTo={() => router.push('/home/markets')}
+    >
       <View className="gap-8 pt-6">
         <View className="gap-4">
           <View className="size-[2.625rem] items-center justify-center rounded-full bg-primary">
@@ -21,7 +28,10 @@ const CoinDetailsScreen = () => {
           </View>
         </View>
         <View className="gap-8">
-          <View className="gap-2 rounded-[20px] bg-background-tertiary p-4">
+          <Pressable
+            onPress={() => router.push('/home/markets/BTC/order-book')}
+            className="gap-2 rounded-[20px] bg-background-tertiary p-4 active:opacity-75"
+          >
             <View className="flex-row items-center justify-between">
               <TextCustom className="font-nm-medium text-sm/[130%] text-custom-text-tertiary">
                 BTC / USD
@@ -31,14 +41,14 @@ const CoinDetailsScreen = () => {
               </TextCustom>
             </View>
             <View className="flex-row items-center justify-between">
-              <TextCustom className="text-tertiary-3 text-xs/[130%]">
+              <TextCustom className="text-xs/[130%] text-tertiary-3">
                 1 week · simulated candles
               </TextCustom>
               <TextCustom className="font-nm-medium text-xs/[130%] text-primary-2">
                 +2.1%
               </TextCustom>
             </View>
-          </View>
+          </Pressable>
           <View className="gap-4">
             <Button label="Buy" onPress={() => console.log('trade')} />
             <View className="flex-row items-center gap-4">
@@ -52,7 +62,10 @@ const CoinDetailsScreen = () => {
                   Swap
                 </TextCustom>
               </Pressable>
-              <Pressable className="h-12 flex-1 items-center justify-center rounded-[14px] bg-background-3 active:opacity-75">
+              <Pressable
+                onPress={() => router.push('/home/markets/BTC/alerts')}
+                className="h-12 flex-1 items-center justify-center rounded-[14px] bg-background-3 active:opacity-75"
+              >
                 <TextCustom className="font-nm-medium text-sm/[130%] text-primary-2">
                   Alert
                 </TextCustom>
