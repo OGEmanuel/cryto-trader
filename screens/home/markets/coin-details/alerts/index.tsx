@@ -1,4 +1,5 @@
 import RevampedWrapper from '@/components/revamped-wrapper';
+import Button from '@/components/ui/button';
 import TextCustom from '@/components/ui/text';
 import ItemCard from '@/screens/home/components/item-card';
 import { useRouter } from 'expo-router';
@@ -67,6 +68,10 @@ const AlertScreen = () => {
             />
           </View>
         </View>
+        <Button
+          label="Create alert"
+          onPress={() => router.push('/home/markets/BTC/alerts/success')}
+        />
       </View>
     </RevampedWrapper>
   );
