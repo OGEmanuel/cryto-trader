@@ -1,15 +1,19 @@
 import TextCustom from '@/components/ui/text';
+import { Colors } from '@/constants/theme';
 import { cn } from '@/lib/utils';
-import { useGetAssetsQuery, useGetTrendingQuery } from '@/services/markets';
+import {
+  useGetAssetsQuery,
+  useGetAssetsSymbolQuery,
+  useGetTrendingQuery,
+} from '@/services/markets';
 import { useGetWatchlistQuery } from '@/services/profile';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Platform, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SvgUri } from 'react-native-svg';
+import { LineChart } from 'react-native-wagmi-charts';
 import { Asset } from '../constants/types';
-import TrendDown from './assets/icons/trend-down.svg';
-import TrendUp from './assets/icons/trend-up.svg';
 
 const AssetsList = (props: {
   active: 'All' | 'Gainers' | 'Watchlist';
@@ -20,19 +24,9 @@ const AssetsList = (props: {
   const [displayedAssets, setDisplayedAssets] = useState<Asset[] | undefined>(
     [],
   );
-  const { data, error, isLoading, refetch } = useGetAssetsQuery({});
-  const {
-    data: trendingData,
-    isError: isTrendingError,
-    isLoading: isTrendingLoading,
-    refetch: trendingRefetch,
-  } = useGetTrendingQuery({});
-  const {
-    data: watchlistData,
-    isError: isWatchlistError,
-    isLoading: isWatchlistLoading,
-    refetch: watchlistRefetch,
-  } = useGetWatchlistQuery({});
+  const { data } = useGetAssetsQuery({});
+  const { data: trendingData } = useGetTrendingQuery({});
+  const { data: watchlistData } = useGetWatchlistQuery({});
 
   const query = search.trim().toLowerCase();
 
@@ -57,6 +51,21 @@ const AssetsList = (props: {
     const isPositive = !coinList.change24h?.toString().startsWith('-');
     const svgUri = `${process.env.EXPO_PUBLIC_API_URL}${coinList.iconUrl.slice(1)}`;
     const router = useRouter();
+    const { data } = useGetAssetsSymbolQuery({
+      symbol: coinList.symbol,
+    });
+
+    const coinLineData = useMemo(() => {
+      if (data?.data) {
+        return data.data.chart.slice(0, 7).map((item: any) => {
+          return {
+            timestamp: new Date(item.time).getTime(),
+            value: item.priceUsd,
+          };
+        });
+      }
+      return [];
+    }, [data?.data]);
 
     return (
       <Pressable
@@ -77,7 +86,19 @@ const AssetsList = (props: {
               </TextCustom>
             </View>
           </View>
-          {isPositive ? <TrendUp /> : <TrendDown />}
+          <View>
+            <LineChart.Provider data={coinLineData}>
+              <LineChart width={58} height={26}>
+                <LineChart.Path
+                  color={
+                    isPositive
+                      ? Colors.light['primary-2']
+                      : Colors.light['destructive-3']
+                  }
+                />
+              </LineChart>
+            </LineChart.Provider>
+          </View>
         </View>
         <View className="items-end gap-1">
           <TextCustom className="font-nm-medium text-sm/[130%] text-custom-text-secondary">
@@ -98,29 +119,17 @@ const AssetsList = (props: {
   };
 
   return (
-    <View
-      className={cn(
-        'flex-1',
-        // data?.data &&
-        //   data.data.length < 1 &&
-        //   'flex-row items-center justify-center',
-      )}
-    >
+    <View className={cn('flex-1')}>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={search.trim() === '' ? displayedAssets : filteredSearch}
-        // ListEmptyComponent={<EmptySection />}
         renderItem={item => <RenderAssetsList coinList={item.item} />}
-        contentContainerClassName={cn(
-          'gap-4',
-          //   data?.data && data.data.length < 1 && 'justify-center flex-1',
-        )}
+        contentContainerClassName={cn('gap-4')}
         contentContainerStyle={{
           paddingBottom:
             Platform.OS === 'android'
               ? insets.bottom + 112
               : insets.bottom + 44,
-          // Platform.OS === 'android' ? tabBarHeight + 64 : tabBarHeight,
         }}
         keyExtractor={item => item.id.toString()}
       />

@@ -36,7 +36,10 @@ const formSchema = z.object({
 });
 
 const TradesActionScreen = () => {
-  const { action } = useLocalSearchParams<{ action: string }>();
+  const { action, coin } = useLocalSearchParams<{
+    action: string;
+    coin?: string;
+  }>();
   const router = useRouter();
   const [position, setPosition] = useState<'top' | 'bottom'>('top');
   const [swapHolder, setSwapHolder] = useState([
@@ -202,7 +205,6 @@ const TradesActionScreen = () => {
     data: coinData,
     refetch: refetchCoinData,
     isLoading: isCoinLoading,
-    isError: isCoinError,
   } = useGetAssetsSymbolQuery({
     symbol:
       action === 'buy' ? bottomCoinField.state.value : topCoinField.state.value,
@@ -219,16 +221,31 @@ const TradesActionScreen = () => {
 
   useEffect(() => {
     if (action === 'buy') {
-      topCoinField.setValue('USDT');
-      bottomCoinField.setValue('BTC');
+      if (coin && coin !== 'USDT' && coin !== 'USDC') {
+        bottomCoinField.setValue(coin);
+        topCoinField.setValue('USDT');
+      } else {
+        topCoinField.setValue('USDT');
+        bottomCoinField.setValue('BTC');
+      }
     } else if (action === 'sell') {
-      topCoinField.setValue('BTC');
-      bottomCoinField.setValue('USDT');
+      if (coin && coin !== 'USDT' && coin !== 'USDC') {
+        topCoinField.setValue(coin);
+        bottomCoinField.setValue('USDT');
+      } else {
+        topCoinField.setValue('BTC');
+        bottomCoinField.setValue('USDT');
+      }
     } else if (action === 'swap') {
-      topCoinField.setValue('ETH');
-      bottomCoinField.setValue('SOL');
+      if (coin && coin !== 'SOL' && coin !== 'ETH') {
+        topCoinField.setValue(coin);
+        bottomCoinField.setValue('SOL');
+      } else {
+        topCoinField.setValue('ETH');
+        bottomCoinField.setValue('SOL');
+      }
     }
-  }, [action]);
+  }, [action, coin]);
 
   useEffect(() => {
     if (coinData) {
@@ -379,7 +396,7 @@ const TradesActionScreen = () => {
                             },
                           ])
                         )}
-                        className="bg-tertiary-2 absolute top-[40%] z-10 size-[3.5rem] flex-row items-center justify-center self-center rounded-full active:opacity-75"
+                        className="absolute top-[40%] z-10 size-[3.5rem] flex-row items-center justify-center self-center rounded-full bg-tertiary-2 active:opacity-75"
                       >
                         <ArrowIcon />
                         <ArrowUpIcon />
